@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const hotelSchema = new Schema({
     name: { type : String, required: true, unique: true },
-    location: { street: String, zipcode: Number, state: String},
+    location: { street: String, city: String, zipcode: Number, state: String},
     roomType: [roomTypeSchema],
     createAt: { type: Date, default: Date.now }
 })

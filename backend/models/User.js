@@ -7,7 +7,7 @@ const userSchema = new Schema({
     username: { type : String, required: true, unique: true },
     password: { type : String, required: true },
     email: { type : String, required: false },
-    address: { street: String, zipcode: Number, state: String},
+    address: { street: String, city: String, zipcode: Number, state: String},
     phoneNumber: String,
     revervations:[{ type: Schema.Types.ObjectId, ref: 'Reservation'}],
     createAt: { type: Date, default: Date.now }
