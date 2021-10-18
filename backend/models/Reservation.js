@@ -6,7 +6,7 @@ const reservationSchema = new Schema({
     roomId: String,
     dateStart: { type: Date, default: Date.now },
     dateEnd: { type: Date, default: Date.now },
-    isCancel: Boolean
+    isCancel: { type: Boolean, default: false }
 })
 
 const Reservation = mongoose.model('Reservation', reservationSchema);
