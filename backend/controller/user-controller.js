@@ -9,7 +9,17 @@ const getUser = async () => {
     }
 }
 
+const getUserById = async (id) => {
+    try {
+        const response = await User.find({"_id": id});
+        return response;
+    }catch(error) {
+        throw error;
+    }
+}
+
 module.exports = {
     getUser,
+    getUserById
 
 }

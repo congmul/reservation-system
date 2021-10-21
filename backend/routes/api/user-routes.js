@@ -1,14 +1,22 @@
 const express = require('express');
 const router = express.Router();
 
-const { getUser } = require('../../controller/user-controller');
+const { getUser, getUserById } = require('../../controller/user-controller');
 
 // PATH:  /api/user/
 
 router.get('/', async (req, res) => {
     try {
         const response = await getUser();
-        console.log(response);
+        res.json(response);
+    }catch(error){
+        throw error;
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    try {
+        const response = await getUserById(req.params.id);
         res.json(response);
     }catch(error){
         throw error;
