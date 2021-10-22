@@ -4,7 +4,7 @@ const cors = require("cors");
 const dbConnection = require('./config/connection.js');
 
 const app = express();
-const port = 9001;
+const port = process.env.PORT || 9001;
 
 app.use(express.json());
 app.use(express.urlencoded({extened:  true}))
