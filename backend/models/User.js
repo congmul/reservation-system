@@ -9,7 +9,7 @@ const userSchema = new Schema({
     email: { type : String, required: false },
     address: { street: String, city: String, zipcode: Number, state: String},
     phoneNumber: String,
-    revervations:[{ type: Schema.Types.ObjectId, ref: 'Reservation'}],
+    reservation:[{ type: Schema.Types.ObjectId, ref: 'Reservation'}],
     createAt: { type: Date, default: Date.now }
 })
 
