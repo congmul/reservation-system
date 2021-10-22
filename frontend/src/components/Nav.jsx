@@ -1,4 +1,5 @@
 import React from 'react'
+import './colors.css'
 
 const Nav = (props) => {
     let message = ''
@@ -6,7 +7,7 @@ const Nav = (props) => {
     else message = `Welcome guest`;
 
     return (
-        <nav className="navbar navbar-expand navbar-light blue">
+        <nav className="navbar navbar-expand navbar-dark blue">
         <div className="container">
             <div className="collapse navbar-collapse" id="navigation">
             <ul className="navbar-nav ms-auto">
