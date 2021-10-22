@@ -13,6 +13,7 @@ const getAllHotels = async () => {
         const hotels = await Hotel.find();
         if(hotels.length === 0) throw {status: 500, error: "Could not find any hotels"};
         //if we want to sort the results, chain .sort({parameter: 1}) after find()
+        return hotels;
     }catch(error){
         throw error;
     }

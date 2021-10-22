@@ -1,0 +1,31 @@
+import React from 'react'
+
+const Nav = (props) => {
+    let message = ''
+    if(props.logged) message = `Welcome ${props.name}`;
+    else message = `Welcome guest`;
+
+    return (
+        <nav className="navbar navbar-expand navbar-light blue">
+        <div className="container">
+            <div className="collapse navbar-collapse" id="navigation">
+            <ul className="navbar-nav ms-auto">
+                <li className="nav-item">
+                    <a href="/" className="nav-link">Home</a>
+                </li>
+                <li className="nav-item">
+                    <a href="/" className="nav-link">Hotels</a>
+                </li>
+                <li className="nav-item">{`${message}`}</li>
+                <li className="nav-item">
+                    <a href="/" className="nav-link">Account</a>
+                </li>
+                
+            </ul>
+            </div>
+        </div>
+    </nav>
+    )
+}
+
+export default Nav

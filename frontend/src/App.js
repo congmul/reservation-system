@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import axios from 'axios'
+import Nav from './components/Nav'
+import HotelList from './components/HotelList';
 
 function App() {
+  const [logged, setLogged] = useState('false');
+  const [featured, setFeatured] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+        const {data} = await axios.get('http://localhost:8080/api/hotel'); // axios gives back {data: {}}
+        console.log(data);
+        setFeatured(data);
+    })();
+  }, []);
+
+  const hotel = featured[0];
+  console.log(hotel);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    
+    <div>
+      <Nav logged={logged}/>
+      <Router>
+          <Switch>
+              <Route path="/" exact>
+                  <>
+                  <h1 className="p-2">Spinka</h1>
+                  <HotelList hotels={featured}></HotelList>
+                  
+                  </>
+              </Route>
+          </Switch>
+        </Router>
     </div>
   );
 }
