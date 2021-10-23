@@ -19,7 +19,7 @@ const Nav = (props) => {
                 </li>
                 <li className="nav-item">{`${message}`}</li>
                 <li className="nav-item">
-                    <a href="/" className="nav-link">Account</a>
+                    <a href="/" className="nav-link">Sign In or Join</a>
                 </li>
                 
             </ul>
