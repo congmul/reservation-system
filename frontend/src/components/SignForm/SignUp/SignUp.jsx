@@ -33,6 +33,7 @@ const SignUp = () => {
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setUserFormData({ ...userFormData, [name]: value });
+        setPasswordNotice({...validatePassword(userFormData.password)})
     };
 
     // Validate SignUp information - Username, email type, password
