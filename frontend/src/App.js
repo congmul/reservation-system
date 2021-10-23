@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios'
 import Nav from './components/Nav'
 import HotelList from './components/HotelList';
+import SignForm from './components/SignForm/SignForm';
 
 const App = () => {
   const [logged, setLogged] = useState(false);
@@ -18,14 +19,13 @@ const App = () => {
   
   return (
     <div>
-      <Nav logged={logged}/>
       <Router>
+        <Nav logged={logged}/>
           <Switch>
               <Route path="/" exact>
                   <>
                   <h1 className="p-2">Spinka Hotels</h1>
                   <HotelList hotels={featured}/>
-                  
                   </>
               </Route>
           </Switch>
