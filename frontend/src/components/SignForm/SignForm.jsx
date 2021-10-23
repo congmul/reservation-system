@@ -1,8 +1,10 @@
 // Style: sass/components/_signForm.scss
 import React from 'react';
 
-// import SignUp from './SignUp';
+import SignUp from './SignUp/SignUp';
 import SignIn from './SignIn/SignIn';
+
+import './style.css';
 
 const SignForm = () => { 
 
@@ -17,7 +19,7 @@ const SignForm = () => {
                     {/* Center Vertical Divider */}
                 </div>
                 <div className="signIn-register-right">
-                    {/* <SignUp /> */}
+                    <SignUp />
                 </div>
             </div>
         </div>
