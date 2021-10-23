@@ -16,12 +16,14 @@ const Nav = (props) => {
         setIsSignForm(true)
     }
 
-    useEffect(async () => {
-       if(Auth.loggedIn()){
-            const user = await Auth.getProfile();
-            console.log(user);
-            setUser(user.data);
-       }
+    useEffect(() => {
+        (async () => {
+            if(Auth.loggedIn()){
+                 const user = await Auth.getProfile();
+                 console.log(user);
+                 setUser(user.data);
+            }
+        })();
     }, [])
 
     return (
