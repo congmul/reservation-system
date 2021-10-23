@@ -43,6 +43,9 @@ const Nav = (props) => {
                         <Link to="#" className="nav-link">Hello, {user.username? user.username : "World"}</Link>
                     </li>
                     <li className="nav-item">
+                        <Link to="/account" className="nav-link">Account</Link>
+                    </li>
+                    <li className="nav-item">
                         <Link to="#" onClick={Auth.logout} className="nav-link">Logout</Link>
                     </li>
                 </>) : (

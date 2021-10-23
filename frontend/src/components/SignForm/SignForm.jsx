@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import SignUp from './SignUp/SignUp';
 import SignIn from './SignIn/SignIn';
@@ -7,14 +7,12 @@ import './style.css';
 
 const SignForm = ({setIsSignForm}) => { 
 
-    const [signFormModalState, setSignFormModalState] = useState('');
 
     useEffect(() => {
         document.getElementById("backdrop").style.display = "block";
         const signFormModal = document.getElementById("signForm-modal");
         signFormModal.style.display = "block"
         signFormModal.classList.add("show")
-        setSignFormModalState(signFormModal);
     }, [])
 
 
@@ -22,7 +20,7 @@ const SignForm = ({setIsSignForm}) => {
         document.getElementById("backdrop").style.display = "none"
         document.getElementById("signForm-modal").style.display = "none"
         document.getElementById("signForm-modal").classList.remove("show")
-        
+
         setIsSignForm(false);
     }
 
