@@ -1,9 +1,9 @@
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
+import {BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 import axios from 'axios'
 import Nav from './components/Nav'
 import HotelList from './components/HotelList';
-import SignForm from './components/SignForm/SignForm';
+import Account from './pages/Account/Account';
 
 const App = () => {
   const [logged, setLogged] = useState(false);
@@ -27,6 +27,9 @@ const App = () => {
                   <h1 className="p-2">Spinka Hotels</h1>
                   <HotelList hotels={featured}/>
                   </>
+              </Route>
+              <Route path="/account" exact>
+                <Account />
               </Route>
           </Switch>
         </Router>
