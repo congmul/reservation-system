@@ -42,7 +42,7 @@ const SignIn = () => {
             const { token, user } = response.data;
             console.log(token)
             console.log(user);
-            // Auth.login(token);
+            Auth.login(token);
           } catch (err) {
             console.log("error")
             console.error(err);

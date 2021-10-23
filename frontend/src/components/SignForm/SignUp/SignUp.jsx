@@ -78,7 +78,7 @@ const SignUp = () => {
             console.log(user);
             
             // console.log(user);
-            // Auth.login(token);
+            Auth.login(token);
         }
         catch(err) {
             console.error(err);
