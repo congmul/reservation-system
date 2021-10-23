@@ -25,6 +25,7 @@ router.get('/me', authMiddleware, async (req, res) => {
 // login
 router.post('/login', async(req, res) => {
     try{
+        console.log(req.body);
         const { token, user } = await login(req.body);
         res.json({ token, user });
     }catch(error){
