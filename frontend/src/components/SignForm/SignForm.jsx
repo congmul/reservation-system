@@ -5,7 +5,7 @@ import SignIn from './SignIn/SignIn';
 
 import './style.css';
 
-const SignForm = () => { 
+const SignForm = ({setIsSignForm}) => { 
 
     const [signFormModalState, setSignFormModalState] = useState('');
 
@@ -22,6 +22,8 @@ const SignForm = () => {
         document.getElementById("backdrop").style.display = "none"
         document.getElementById("signForm-modal").style.display = "none"
         document.getElementById("signForm-modal").classList.remove("show")
+        
+        setIsSignForm(false);
     }
 
     return(<>
@@ -36,13 +38,13 @@ const SignForm = () => {
         <div className="signForm-body">
             <div className="signIn-register">
                 <div className="signIn-register-left">
-                    <SignIn />
+                    <SignIn closeModal={closeModal} />
                 </div>
                 <div className="signIn-register-center">
                     {/* Center Vertical Divider */}
                 </div>
                 <div className="signIn-register-right">
-                    <SignUp />
+                    <SignUp closeModal={closeModal} />
                 </div>
             </div>
         </div>

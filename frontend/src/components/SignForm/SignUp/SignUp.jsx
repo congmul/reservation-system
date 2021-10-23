@@ -5,7 +5,7 @@ import { createUser } from "../../../utils/user-API";
 import Auth from '../../../utils/auth';
 
 
-const SignUp = () => { 
+const SignUp = ( {closeModal} ) => { 
     const [userFormData, setUserFormData] = useState({'username': '', 'password': '', 'confirmpassword':'', 'email': ''}); 
     const [ usernameNotice, setUsernameNotice] = useState('none');
     const [ passwordNotice, setPasswordNotice] = useState({'display': 'none', 'char8': 'red', 'specialChar': 'red', 'number': 'red', 'letter': 'red'});
@@ -79,6 +79,8 @@ const SignUp = () => {
             
             // console.log(user);
             Auth.login(token);
+
+            closeModal();
         }
         catch(err) {
             console.error(err);

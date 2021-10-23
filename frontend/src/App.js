@@ -19,14 +19,13 @@ const App = () => {
   
   return (
     <div>
-      <Nav logged={logged}/>
       <Router>
+        <Nav logged={logged}/>
           <Switch>
               <Route path="/" exact>
                   <>
                   <h1 className="p-2">Spinka Hotels</h1>
                   <HotelList hotels={featured}/>
-                  <SignForm />
                   </>
               </Route>
           </Switch>

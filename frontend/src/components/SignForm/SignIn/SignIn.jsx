@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { loginUser } from "../../../utils/user-API";
 import Auth from '../../../utils/auth';
 
-const SignIn = () => { 
+const SignIn = ( {closeModal} ) => { 
     const [userFormData, setUserFormData] = useState({ username: '', password: '' }); 
     const [showAlert, setShowAlert] = useState(false);
 
@@ -43,6 +43,8 @@ const SignIn = () => {
             console.log(token)
             console.log(user);
             Auth.login(token);
+            
+            closeModal();
           } catch (err) {
             console.log("error")
             console.error(err);
