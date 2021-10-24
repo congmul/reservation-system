@@ -60,13 +60,13 @@
     padding: 0px 40px;
     margin: 0px 80px;
 }
-.profile-menu > div > div{
+.profile-menu > div > .profile-tab-menu{
     flex: 1 0 auto;
     text-align: center;
     height: 100%;
     padding-top: 12px;
 }
-.profile-menu > div > div:hover {
+.profile-menu > div > .profile-tab-menu:hover {
     cursor: pointer;
     background-color: #008B8B;
     color: white;
