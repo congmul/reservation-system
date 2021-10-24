@@ -19,6 +19,18 @@ const Account = () => {
         })();
     }, [])
 
+    const onClickTabMenu = (event) => {
+        const profileTabMenu = document.getElementsByClassName('profile-tab-menu');
+
+        for(let i = 0; i < profileTabMenu.length; i++){
+            // if(profileTabMenu.getAttribute('class')){
+                profileTabMenu[i].classList.remove('profile-tab-clicked');
+            // }
+        }
+
+        event.target.classList.add('profile-tab-clicked');
+    }
+
     return(<>
         <section className="profile-top">
             <img className="" src={profileImg} id="profile-img" alt="profile" />
@@ -40,13 +52,13 @@ const Account = () => {
     
         <section className="profile-menu">
             <div>
-                <div>
+                <div className="profile-tab-menu profile-tab-clicked" onClick={onClickTabMenu}>
                     Overview
                 </div>
-                <div>
+                <div className="profile-tab-menu" onClick={onClickTabMenu}>
                     My Trips
                 </div>
-                <div>
+                <div className="profile-tab-menu" onClick={onClickTabMenu}>
                     Profile
                 </div>
             </div>

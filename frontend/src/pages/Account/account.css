@@ -72,3 +72,8 @@
     color: white;
     transition: all ease-in-out 0.3s;
 }   
+
+.profile-tab-clicked {
+    background-color: #008B8B;
+    color: white;
+}
