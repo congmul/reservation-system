@@ -1,0 +1,22 @@
+
+#profile-tab-body-overview{
+    font-size: 58px;
+    color: rgb(30, 30, 30);
+    text-align: center;
+
+    font-size: 50px;
+    padding: 50px 10px;
+}
+
+#profile-tab-body-overview > div {
+    margin-bottom: 50px;
+}
+
+.overview-boldText{
+    font-weight: 900;
+}
+
+.overview-text{
+    font-size: 38px;
+    padding-left: 10px;
+}

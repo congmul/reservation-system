@@ -24,7 +24,7 @@
 
 .profile-end{
     flex: 1 0 auto;
-
+    height: 125px;
     display: flex;
     justify-content: flex-end;
 }
@@ -79,8 +79,8 @@
 }
 
 #profile-tab-body{
-    display: flex;
-    justify-items: center;
+    /* display: flex; */
+    /* justify-items: center; */
     margin: 15px 100px;
     padding: 15px 100px;
 }
@@ -94,7 +94,3 @@
 #profile-tab-body > #profile-tab-body-right {
     flex: 0 0 45%;
 }
-
-/* #profile-tab-body > div > div{
-    flex: 0 0 100px;
-} */

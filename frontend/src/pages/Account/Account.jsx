@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Spinner } from 'react-bootstrap';
+
+import AccountTabBody from '../../components/AccountTabBody/AccountTabBody';
+
 import Auth from '../../utils/auth';
+import { NumberComma } from "../../utils/helpers";
+
 import profileImg from "../../assets/profile-img.png";
 import './account.css'
-import { NumberComma } from "../../utils/helpers";
 
 const Account = () => { 
 
@@ -22,22 +26,6 @@ const Account = () => {
         })();
     }, [])
 
-
-    const displayOverview = () => {
-        const profileTabBodyEl = document.getElementById('profile-tab-body');
-        profileTabBodyEl.innerHTML = `<div>Overview</div>`
-    }
-
-    const displayMyTrips = () => {
-        const profileTabBodyEl = document.getElementById('profile-tab-body');
-        profileTabBodyEl.innerHTML = `<h1>My Trips</h1>`
-    }
-
-    const displayProfile = () => {
-        const profileTabBodyEl = document.getElementById('profile-tab-body');
-        profileTabBodyEl.innerHTML = `<h1>Profile</h1>`
-    }
-
     const onClickTabMenu = (event) => {
         const profileTabMenu = document.getElementsByClassName('profile-tab-menu');
 
@@ -46,20 +34,6 @@ const Account = () => {
         }
         setTabMenuName(event.target.innerText);
         event.target.classList.add('profile-tab-clicked');
-
-        switch(event.target.innerText){
-            case("Overview"):
-                displayOverview()
-                break;
-            case("My Trips"):
-                displayMyTrips()
-                break;
-            case("Profile"):
-                displayProfile()
-                break;
-            default:
-                console.log("default");
-        }
     }
 
     return(<>
@@ -72,6 +46,8 @@ const Account = () => {
             <div id="profile-menuname">{tabMenuName}</div>
         </div>
         <div className="profile-end">
+        {tabMenuName !== "Overview" ?
+        <>       
             <div>
                 <h3>{NumberComma(user.points, false)}</h3>
                 <p>POINTS</p>
@@ -80,7 +56,10 @@ const Account = () => {
                 <h3>{user.totalNights}</h3>
                 <p>NIGHTS THIS YEAR</p>
             </div>
-        </div>
+        </>
+        : <></>
+        }
+         </div>
     </section>
 
     <section className="profile-menu">
@@ -96,20 +75,7 @@ const Account = () => {
             </div>
         </div>
         <div id="profile-tab-body">
-            <div id="profile-tab-body-left">
-                <div className="row">
-                    <div  className="col-2">Name: </div>
-                    <input className="col-8" value="Jehyun" ></input>
-                </div>    
-            </div>
-
-            <div id="profile-tab-body-right">
-                <div className="row">
-                    <div  className="col-2">Name: </div>
-                    <input className="col-8" value="Jehyun" ></input>
-                </div>  
-            </div>
-
+            <AccountTabBody user={user} tabMenuName={tabMenuName} />
         </div>
     </section>
     </>
