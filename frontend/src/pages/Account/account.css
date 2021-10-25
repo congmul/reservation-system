@@ -79,18 +79,6 @@
 }
 
 #profile-tab-body{
-    /* display: flex; */
-    /* justify-items: center; */
     margin: 15px 100px;
     padding: 15px 100px;
-}
-
-#profile-tab-body > #profile-tab-body-left {
-    flex: 0 0 45%;
-    margin-right: 5%;
-}
-
-
-#profile-tab-body > #profile-tab-body-right {
-    flex: 0 0 45%;
 }
