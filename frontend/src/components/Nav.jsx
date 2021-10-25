@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './colors.css'
 import SignForm from './SignForm/SignForm';
 import Auth from '../utils/auth';
 
-const Nav = (props) => {
-    let message = ''
-    if(props.logged) message = `Welcome ${props.name}`;
-    else message = `Welcome guest`;
+const Nav = () => {
 
     const [ user, setUser ] = useState({});
     const [ isSignForm, setIsSignForm ] = useState(false);

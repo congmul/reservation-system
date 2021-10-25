@@ -7,11 +7,12 @@ const HotelList = (props) => {
         props.hotels.length == 0 ? <h3>Not loaded yet</h3>
         :
         <>
-        <Card hotel={props.hotels[0]}></Card>
-        <Card hotel={props.hotels[1]}></Card>
-        <Card hotel={props.hotels[2]}></Card>
+        {props.hotels.map((hotel) => {
+            return(
+                <Card key={hotel._id} hotel={hotel}/>
+            )}
+        )}
         </>
-        
         
     )
 }
