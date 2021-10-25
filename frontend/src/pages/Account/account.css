@@ -51,7 +51,7 @@
     border-bottom: 1px solid #008B8B;
 }
 
-.profile-menu > div {
+.profile-menu > #profile-tab-header {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -60,13 +60,13 @@
     padding: 0px 40px;
     margin: 0px 80px;
 }
-.profile-menu > div > .profile-tab-menu{
+.profile-menu > #profile-tab-header > .profile-tab-menu{
     flex: 1 0 auto;
     text-align: center;
     height: 100%;
     padding-top: 12px;
 }
-.profile-menu > div > .profile-tab-menu:hover {
+.profile-menu > #profile-tab-header > .profile-tab-menu:hover {
     cursor: pointer;
     background-color: #008B8B;
     color: white;
@@ -77,3 +77,24 @@
     background-color: #008B8B;
     color: white;
 }
+
+#profile-tab-body{
+    display: flex;
+    justify-items: center;
+    margin: 15px 100px;
+    padding: 15px 100px;
+}
+
+#profile-tab-body > #profile-tab-body-left {
+    flex: 0 0 45%;
+    margin-right: 5%;
+}
+
+
+#profile-tab-body > #profile-tab-body-right {
+    flex: 0 0 45%;
+}
+
+/* #profile-tab-body > div > div{
+    flex: 0 0 100px;
+} */

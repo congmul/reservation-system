@@ -94,11 +94,24 @@ const Account = () => {
             </div>
         </div>
         <div id="profile-tab-body">
-            Tab Body
+            <div id="profile-tab-body-left">
+                <div className="row">
+                    <div  className="col-2">Name: </div>
+                    <input className="col-8" value="Jehyun" ></input>
+                </div>    
+            </div>
+
+            <div id="profile-tab-body-right">
+                <div className="row">
+                    <div  className="col-2">Name: </div>
+                    <input className="col-8" value="Jehyun" ></input>
+                </div>  
+            </div>
+
         </div>
     </section>
     </>
-    
+
     : <Spinner animation="border" variant="success" />}
     </>)
 }
