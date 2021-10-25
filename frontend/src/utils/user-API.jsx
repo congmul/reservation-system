@@ -12,7 +12,13 @@ export const createUser = async (userData) => {
 }
 
 // Get one user
-export const getSingleUser = async (userData) => {
-    console.log(userData);
-    // return await axios.get(`http://localhost:8080/api/user/me/`);
+export const getSingleUser = async (userData, token) => {
+    // console.log(token);
+    return await axios.get(`http://localhost:8080/api/user/me/`,{ 
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${token}`
+            }
+        }
+    );
 }

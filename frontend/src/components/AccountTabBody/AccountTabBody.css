@@ -49,8 +49,9 @@
 }
 
 .profile-tab-body-flex #profile-tab-body-profile-left > div > button {
-    width: 100%;
+    flex: 1 0 auto;
     padding: 10px;
+    margin: 0 10px;
     border: 1px solid #008B8B;
     color: #008B8B;
     background: none;
