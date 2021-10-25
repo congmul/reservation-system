@@ -1,25 +1,64 @@
 const { User } = require('../models');
 
-const getUser = async () => {
+const { signToken } = require('../libs/auth');
+
+const getSingleUser = async (userInfo) => {
+    // console.log(userInfo, "User Controller get Signle")
     try {
-        const response = await User.find({});
-        return response;
+        const user = await User.find({username: userInfo.username}).populate('reservation');
+        
+        if (!user) {
+            throw { message: 'Cannot find a user with this user!' };
+          }
+        
+        return user;
     }catch(error) {
         throw error;
     }
 }
 
-const getUserById = async (id) => {
+const login = async (userInfo) => {
     try {
-        const response = await User.find({"_id": id});
-        return response;
+        const user = await User.findOne({ $or: [{ username: userInfo.username }, { email: userInfo.email }] });
+        if (!user) {
+            throw { message: "Can't find this user"};
+          }
+        
+        const correctPw = await user.isCorrectPassword(userInfo.password);
+        if (!correctPw) {
+            throw 'Wrong password!';
+          }
+          const token = signToken(user);
+          return ({ token, user });
+
     }catch(error) {
+        throw error;
+    }
+}
+
+const createUser = async (userInfo) => {
+    try{
+        console.log(userInfo);
+        const user = await User.create(userInfo);
+
+        console.log(user)
+
+        if (!user) {
+            throw { message: 'Something is wrong!' };
+          }
+          const token = signToken(user);
+
+          console.log({ token, user })
+          return ({ token, user });
+
+    }catch(error){
         throw error;
     }
 }
 
 module.exports = {
-    getUser,
-    getUserById
+    getSingleUser,
+    login,
+    createUser
 
 }
