@@ -20,6 +20,7 @@ const getSingleUser = async (userInfo) => {
 const login = async (userInfo) => {
     try {
         const user = await User.findOne({ $or: [{ username: userInfo.username }, { email: userInfo.email }] });
+        console.log(user);
         if (!user) {
             throw { message: "Can't find this user"};
           }

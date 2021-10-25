@@ -3,6 +3,7 @@ import { Spinner } from 'react-bootstrap';
 import Auth from '../../utils/auth';
 import profileImg from "../../assets/profile-img.png";
 import './account.css'
+import { NumberComma } from "../../utils/helpers";
 
 const Account = () => { 
 
@@ -15,6 +16,7 @@ const Account = () => {
                 window.location.assign('/'); 
             }else{
                 const userData = await Auth.getProfile();
+                console.log(userData.data);
                 setUser(userData.data);
             }
         })();
@@ -31,7 +33,7 @@ const Account = () => {
         profileTabBodyEl.innerHTML = `<h1>My Trips</h1>`
     }
 
-    const displayprofile = () => {
+    const displayProfile = () => {
         const profileTabBodyEl = document.getElementById('profile-tab-body');
         profileTabBodyEl.innerHTML = `<h1>Profile</h1>`
     }
@@ -53,7 +55,7 @@ const Account = () => {
                 displayMyTrips()
                 break;
             case("Profile"):
-                displayprofile()
+                displayProfile()
                 break;
             default:
                 console.log("default");
@@ -71,11 +73,11 @@ const Account = () => {
         </div>
         <div className="profile-end">
             <div>
-                <h3>13,112</h3>
+                <h3>{NumberComma(user.points, false)}</h3>
                 <p>POINTS</p>
             </div>
             <div>
-                <h3>21</h3>
+                <h3>{user.totalNights}</h3>
                 <p>NIGHTS THIS YEAR</p>
             </div>
         </div>

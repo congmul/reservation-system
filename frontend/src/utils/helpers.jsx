@@ -1,18 +1,21 @@
 // Create dot(.) every third numbers
 // ex) if receiving 123123, then return 123.123
-export function NumberComma( num ) {
+export function NumberComma( num, isDot) {
     // console.log("In currencyComma")
     var str = num.toString().split('.');
     // console.log(str);
     if (str[0].length >= 4) {
         str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
     }
-    if (str[1] && str[1].length >= 5) {
-        str[1] = str[1].replace(/(\d{3})/g, '$1 ');
-    }
-    // console.log(str);
-    if(!str[1]){
-        str[1] = '00';
+
+    if(isDot) {
+        if (str[1] && str[1].length >= 5) {
+            str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+        }
+        // console.log(str);
+        if(!str[1]){
+            str[1] = '00';
+        }
     }
     return str.join('.');
   }
