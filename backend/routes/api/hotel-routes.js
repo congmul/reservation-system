@@ -9,7 +9,6 @@ const { getAllHotels, getHotelById, getHotelByName, getHotelsByCity } = require(
 router.get('/', async (req, res) => {
     try {
         const hotels = await getAllHotels();
-        console.log(hotels);
         res.status(200).json(hotels);
     }catch(error){
         res.status(error.status).json(error.error);
