@@ -2,7 +2,7 @@ import React from 'react'
 
 const Card = ({hotel}) => {
     return (
-        <div className="card mx-auto my-2 w-25" role="button">
+        <div className="card mx-auto my-2 w-auto" role="button">
             <div className="card-header">
                 <p>{hotel.name} Hotel</p>    
             </div>

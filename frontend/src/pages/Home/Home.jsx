@@ -27,7 +27,7 @@ const Home = () => {
         <div className="container">
             <h3 className="mt-5">Featured Hotels:</h3>
             <div className="d-md-flex my-3">
-                <HotelList hotels={featured}/>
+                <HotelList hotels={featured} showAll={false}/>
             </div>
         </div>
         </>
