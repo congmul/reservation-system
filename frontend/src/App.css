@@ -1,6 +1,9 @@
 .blue{
   background-color: darkcyan;
 }
+.light{
+  background-color: rgba(0, 139, 139, 0.051);
+}
 .bk-img{
   background-image: url(https://wallpaperaccess.com/full/3400459.jpg);
   background-size: cover;

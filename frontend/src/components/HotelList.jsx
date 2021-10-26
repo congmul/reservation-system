@@ -5,7 +5,7 @@ import Card from './Card'
 const HotelList = (props) => {
     //logic: if no hotels, h3 only. if showAll=false, show only card. otherwise, show card+table
     return (
-        props.hotels.length == 0 ? <h3>Not loaded yet</h3>
+        props.hotels.length == 0 ? <h5>No Results</h5>
         : !props.showAll ?
             <>
                 {props.hotels.map((hotel) => {
@@ -18,9 +18,9 @@ const HotelList = (props) => {
             <>
                  {props.hotels.map((hotel) => {
                     return(
-                        <div className="d-md-flex border px-3 m-3 w-100">
-                            <Card key={hotel._id} hotel={hotel}/>
-                            <HotelTable key={hotel._id} location={hotel.location} rooms={hotel.roomType}/>
+                        <div key={hotel._id} className="d-md-flex border rounded px-3 m-3 w-100 light">
+                            <Card hotel={hotel}/>
+                            <HotelTable location={hotel.location} rooms={hotel.roomType}/>
                         </div>
                     )}
                 )};
