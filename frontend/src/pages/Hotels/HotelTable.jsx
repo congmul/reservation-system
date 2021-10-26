@@ -10,7 +10,7 @@ const HotelTable = ({location, rooms}) => {
             <div className="p-3">
                 <p className="fw-bold px-1">Rooms: </p>
                 {rooms.map((room) => {
-                    return <p>{room.name} - {room.beds} beds, ${room.price}</p>
+                    return <p key={room._id}>{room.name} - {room.beds} beds, ${room.price}</p>
                 })}
             </div>
         </div>
