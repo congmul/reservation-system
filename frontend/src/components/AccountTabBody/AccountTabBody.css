@@ -95,3 +95,7 @@
     background-color: #008B8B;
     color: white;
 }
+
+.expire-select select{
+    padding: 5px;
+}

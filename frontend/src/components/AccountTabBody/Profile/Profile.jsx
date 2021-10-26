@@ -11,6 +11,7 @@ const Profile = () => {
 
     const [ user, setUser ] = useState(null);
     const [ currentYear, setCurrentYear ] = useState(["2021", "2022"]);
+    const [ isUpdatingCardInfo, setIsUpdatingCardInfo ] = useState(false);
 
     useEffect(() => {
       let startYear = new Date().getFullYear(); // Current Year.
@@ -115,6 +116,8 @@ const Profile = () => {
     const onClickProfileCardUpdate = (event) => {
       event.preventDefault();
 
+      setIsUpdatingCardInfo(true);
+
       const allCardInfoInputEl = document.getElementsByClassName('profile-cardInfo-input');
       const profileCardUpdateBtnEl = document.getElementById('profile-card-update-btn');
       const profileCardUpdateSubmitEl = document.getElementById('profile-card-update-submit');
@@ -132,19 +135,24 @@ const Profile = () => {
     const onClickProfileCardSumitBtn = async (event) => {
       console.log("submit btn")
       const allCardInfoInputEl = document.getElementsByClassName('profile-cardInfo-input');
+      const expireSelectMonthEl = document.getElementById('expire-select-month');
+      const expireSelectYearEl = document.getElementById('expire-select-year');
+
+      let expireDate = expireSelectMonthEl.value + "/" + expireSelectYearEl.value;
       let cardInfo = {}
 
       for(let i = 0; i < allCardInfoInputEl.length; i++){
          cardInfo[allCardInfoInputEl[i].name] = allCardInfoInputEl[i].value;
       }
-
+      cardInfo["expDate"] = expireDate
       console.log(cardInfo);
-
+      setUser({ ...user, "cardInfo" :cardInfo})
       // Update cardInfo
       try {
          let response = await updateCardInfo(cardInfo, user.username);
          console.log(response);
          onClickProfileCardCancelBtn();
+         setIsUpdatingCardInfo(false);
       }catch(error){
          console.log(error);
       }
@@ -152,7 +160,8 @@ const Profile = () => {
     }
 
     const onClickProfileCardCancelBtn = () => {
-       
+      setIsUpdatingCardInfo(false);
+
       const allCardInfoInputEl = document.getElementsByClassName('profile-cardInfo-input');
       const profileCardUpdateBtnEl = document.getElementById('profile-card-update-btn');
       const profileCardUpdateSubmitEl = document.getElementById('profile-card-update-submit');
@@ -166,17 +175,6 @@ const Profile = () => {
       profileCardUpdateSubmitEl.style.display = "none";
       profileCardUpdateCancelEl.style.display = "none";
    }
-
-   // const yearGenerator = () => {
-   //    // setCurrentYear
-   //    let startYear = new Date().getFullYear(); // Current Year.
-   //    let years = [];
-   //    for(let i = 0; i < 10; i++){
-   //       years.push(startYear + i);
-   //    }
-   //    console.log(typeof years)
-   //    setCurrentYear(years)
-   // }
 
     return(<>
         {user != null ? 
@@ -239,27 +237,27 @@ const Profile = () => {
             </div>
             <div>
                <label htmlFor="expireDate">Expire: </label>
-               <input className="profile-cardInfo-input" type="text" name="expDate" value={user.cardInfo ? user.cardInfo.expDate ?? "" : ""} onChange={onChangeCreditCardForm} disabled />
-               <div>
+              {!isUpdatingCardInfo ? <input className="profile-cardInfo-input" type="text" name="expDate" value={user.cardInfo ? user.cardInfo.expDate ?? "" : ""} disabled />
+               : <div className="expire-select">
                   {/* {yearGenerator()} */}
-                  <select id="month">
-                      <option value="1">January</option>
-                      <option value="2">February</option>
-                      <option value="3">March</option>
-                      <option value="4">April</option>
-                      <option value="5">May</option>
-                      <option value="6">June</option>
-                      <option value="7">July</option>
-                      <option value="8">August</option>
-                      <option value="9">September</option>
+                  <select id="expire-select-month">
+                      <option value="01">January</option>
+                      <option value="02">February</option>
+                      <option value="03">March</option>
+                      <option value="04">April</option>
+                      <option value="05">May</option>
+                      <option value="06">June</option>
+                      <option value="07">July</option>
+                      <option value="08">August</option>
+                      <option value="09">September</option>
                       <option value="10">October</option>
                       <option value="11">November</option>
                       <option value="12">December</option>
                   </select>
-                  <select id="year">
+                  <select id="expire-select-year">
                      {currentYear ? currentYear.map(year => <option key={year} value={year}>{year}</option>) : "" }
                   </select>
-               </div>
+               </div>}
             </div>
             <div>
                <label htmlFor="cvcNumber">CVC: </label>
