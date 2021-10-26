@@ -1,5 +1,13 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Docker
+Dockerfile
+Dockerfile.production
+.dockerignore
+Makefile
+Caddyfile.local
+Caddyfile.production
+
 # dependencies
 /node_modules
 /.pnp
