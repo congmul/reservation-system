@@ -38,7 +38,7 @@ const Profile = () => {
     const onChangeCreditCardForm = (event) => {
       let keyName = event.target.name;
       let inputValue = event.target.value;
-      setUser({...user, "creditInfo": {...user["creditInfo"], [keyName]: inputValue}})
+      setUser({...user, "cardInfo": {...user["cardInfo"], [keyName]: inputValue}})
     }
 
     const onClickProfileUpdate = (event) => {
