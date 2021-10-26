@@ -57,9 +57,21 @@ const createUser = async (userInfo) => {
     }
 }
 
+const updateUser = async (userInfo) => {
+    try{
+        console.log("userInfo in controller", userInfo);
+        let user = await User.updateOne({'username': userInfo.username}, userInfo, { new: true })
+        console.log(user);
+    }catch(error){
+        console.log(error);
+        throw error;
+    }
+}
+
 module.exports = {
     getSingleUser,
     login,
-    createUser
+    createUser,
+    updateUser
 
 }

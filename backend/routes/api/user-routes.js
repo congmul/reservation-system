@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { login, getSingleUser, createUser } = require('../../controller/user-controller');
+const { login, getSingleUser, createUser, updateUser } = require('../../controller/user-controller');
 
 
 // import middleware
@@ -43,5 +43,14 @@ router.post('/', async (req, res) => {
     }
 })
 
+router.put('/', async (req, res) => {
+    try {
+        console.log("Update Route req.body", req.body);
+        let response = await updateUser(req.body)
+        res.json({message: "Success"});
+    }catch(error) {
+        res.status(500).json(error)
+    }
+})
 
 module.exports = router;
