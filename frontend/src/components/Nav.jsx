@@ -31,7 +31,7 @@ const Nav = () => {
                     <Link to="/" className="nav-link">Home</Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/" className="nav-link">Hotels</Link>
+                    <Link to="/hotels" className="nav-link">Hotels</Link>
                 </li>
                 {/* <li className="nav-item">{`${message}`}</li> */}
                 {Auth.loggedIn() ? (<>
