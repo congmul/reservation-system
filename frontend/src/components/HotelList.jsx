@@ -18,12 +18,10 @@ const HotelList = (props) => {
             <>
                  {props.hotels.map((hotel) => {
                     return(
-                        <Card key={hotel._id} hotel={hotel}/>
-                    )}
-                )};
-                {props.hotels.map((hotel) => {
-                    return(
-                        <HotelTable key={hotel._id} hotel={hotel}/>
+                        <div className="d-md-flex border px-3 m-3 w-100">
+                            <Card key={hotel._id} hotel={hotel}/>
+                            <HotelTable key={hotel._id} location={hotel.location} rooms={hotel.roomType}/>
+                        </div>
                     )}
                 )};
             </>

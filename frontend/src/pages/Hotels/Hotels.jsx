@@ -15,7 +15,7 @@ const Hotels = () => {
       }, []);
 
     return (
-        <div className="m-5 w-25">
+        <div className="m-5">
             <h5 className="mx-5 mb-3">Showing All Hotels: </h5>
             <HotelList hotels={hotels} showAll={true}/>
 

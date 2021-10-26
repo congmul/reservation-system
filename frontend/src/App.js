@@ -9,12 +9,11 @@ import Reservation from './pages/Reservation/Reservation';
 import './App.css';
 
 const App = () => {
-  const [logged, setLogged] = useState(false);
   
   return (
     <div>
       <Router>
-        <Nav logged={logged}/>
+        <Nav/>
           <Switch>
               <Route path="/" exact>
                   <Home/>
