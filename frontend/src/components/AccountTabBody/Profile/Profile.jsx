@@ -10,6 +10,17 @@ import { getSingleUser, updateUser, updateCardInfo } from '../../../utils/user-A
 const Profile = () => {
 
     const [ user, setUser ] = useState(null);
+    const [ currentYear, setCurrentYear ] = useState(["2021", "2022"]);
+
+    useEffect(() => {
+      let startYear = new Date().getFullYear(); // Current Year.
+      let years = [];
+      for(let i = 0; i < 10; i++){
+         years.push(startYear + i);
+      }
+      console.log(years)
+      setCurrentYear(years)
+    }, [])
 
     useEffect(() => {
         (async () => {
@@ -18,12 +29,14 @@ const Profile = () => {
                 const token = Auth.getToken();
                 const user = await getSingleUser(userData.data.username, token);
                 console.log(user);
-                setUser(user.data[0]) 
+                setUser(user.data[0])      
             }catch(err) {
                 console.log(err);
             }
         })();
     }, [])
+
+
 
     const onChangeProfileForm = (event) => {
       let keyName = event.target.name;
@@ -154,6 +167,17 @@ const Profile = () => {
       profileCardUpdateCancelEl.style.display = "none";
    }
 
+   // const yearGenerator = () => {
+   //    // setCurrentYear
+   //    let startYear = new Date().getFullYear(); // Current Year.
+   //    let years = [];
+   //    for(let i = 0; i < 10; i++){
+   //       years.push(startYear + i);
+   //    }
+   //    console.log(typeof years)
+   //    setCurrentYear(years)
+   // }
+
     return(<>
         {user != null ? 
         <div className="profile-tab-body-flex">
@@ -216,6 +240,26 @@ const Profile = () => {
             <div>
                <label htmlFor="expireDate">Expire: </label>
                <input className="profile-cardInfo-input" type="text" name="expDate" value={user.cardInfo ? user.cardInfo.expDate ?? "" : ""} onChange={onChangeCreditCardForm} disabled />
+               <div>
+                  {/* {yearGenerator()} */}
+                  <select id="month">
+                      <option value="1">January</option>
+                      <option value="2">February</option>
+                      <option value="3">March</option>
+                      <option value="4">April</option>
+                      <option value="5">May</option>
+                      <option value="6">June</option>
+                      <option value="7">July</option>
+                      <option value="8">August</option>
+                      <option value="9">September</option>
+                      <option value="10">October</option>
+                      <option value="11">November</option>
+                      <option value="12">December</option>
+                  </select>
+                  <select id="year">
+                     {currentYear ? currentYear.map(year => <option key={year} value={year}>{year}</option>) : "" }
+                  </select>
+               </div>
             </div>
             <div>
                <label htmlFor="cvcNumber">CVC: </label>
