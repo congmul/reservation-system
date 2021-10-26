@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './colors.css'
 import SignForm from './SignForm/SignForm';
 import Auth from '../utils/auth';
 
-const Nav = (props) => {
-    let message = ''
-    if(props.logged) message = `Welcome ${props.name}`;
-    else message = `Welcome guest`;
+const Nav = () => {
 
     const [ user, setUser ] = useState({});
     const [ isSignForm, setIsSignForm ] = useState(false);
@@ -35,7 +31,7 @@ const Nav = (props) => {
                     <Link to="/" className="nav-link">Home</Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/" className="nav-link">Hotels</Link>
+                    <Link to="/hotels" className="nav-link">Hotels</Link>
                 </li>
                 {/* <li className="nav-item">{`${message}`}</li> */}
                 {Auth.loggedIn() ? (<>

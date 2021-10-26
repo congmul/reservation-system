@@ -5,7 +5,7 @@ const getHotelById = async (id) => {
         const response = await Hotel.findById(id);
         return response;
     }catch(error) {
-        throw error;
+        throw {status: 500, error: error};
     }
 }
 const getAllHotels = async () => {
@@ -24,7 +24,7 @@ const getHotelByName = async (name) => {
         if (response == null) throw {status: 500, error: `Could not find hotel with name ${name}`};
         return response;
     }catch(error) {
-        throw error;
+        throw {status: 500, error: error};
     }
 }
 const getHotelsByCity = async (city) => {
@@ -33,12 +33,27 @@ const getHotelsByCity = async (city) => {
         if (hotels.lenght == 0) throw {status: 500, error: `Could not find any hotels in ${city}`};
         return hotels;
     }catch(error) {
-        throw error;
+        throw {status: 500, error: error};
+    }
+}
+const getFeatured = async () => {
+    //random selection of 3 hotels
+    try{
+        //get number of hotels
+        let size = await Hotel.countDocuments();
+        const rand = Math.floor(Math.random()*(size-3)); //starting index
+        const hotels = await Hotel.find().skip(rand).limit(3); //returns 3 hotels starting at a random spot in the list
+        if(hotels.length === 0) throw {status: 500, error: "Could not find any hotels"};
+        return hotels;
+
+    } catch(error){
+        throw {status: 500, error: error};
     }
 }
 module.exports = {
     getHotelById,
     getAllHotels,
     getHotelsByCity,
-    getHotelByName
+    getHotelByName,
+    getFeatured
 }

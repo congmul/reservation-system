@@ -2,34 +2,27 @@ import {BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 import axios from 'axios'
 import Nav from './components/Nav'
-import HotelList from './components/HotelList';
 import Account from './pages/Account/Account';
+import Home from './pages/Home/Home';
+import Hotels from './pages/Hotels/Hotels';
+import Reservation from './pages/Reservation/Reservation';
+import './App.css';
 
 const App = () => {
-  const [logged, setLogged] = useState(false);
-  const [featured, setFeatured] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-        const {data} = await axios.get('http://localhost:8080/api/hotel');
-        console.log(data);
-        setFeatured(data);
-    })();
-  }, []);
   
   return (
     <div>
       <Router>
-        <Nav logged={logged}/>
+        <Nav/>
           <Switch>
               <Route path="/" exact>
-                  <>
-                  <h1 className="p-2">Spinka Hotels</h1>
-                  <HotelList hotels={featured}/>
-                  </>
+                  <Home/>
               </Route>
               <Route path="/account" exact>
                 <Account />
+              </Route>
+              <Route path="/hotels" exact>
+                  <Hotels/>
               </Route>
           </Switch>
         </Router>
