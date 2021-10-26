@@ -145,20 +145,24 @@ const Profile = () => {
         </div>
         <div id="profile-tab-body-profile-right">
            <div>
-               <label htmlFor="creditCard">Credit Card: </label>
-               <input className="profile-cardInfo-input" type="text" name="creditCard" disabled />
+               <label htmlFor="creditCard">Credit Type: </label>
+               <input className="profile-cardInfo-input" type="text" name="cardType" disabled />
             </div>
             <div>
                <label htmlFor="cardNumber">Card Number: </label>
                <input className="profile-cardInfo-input" type="text" name="cardNumber" disabled />
             </div>
             <div>
+               <label htmlFor="cardNumber">Name on card: </label>
+               <input className="profile-cardInfo-input" type="text" name="nameOnCard" disabled />
+            </div>
+            <div>
                <label htmlFor="expireDate">Expire: </label>
-               <input className="profile-cardInfo-input" type="text" name="expireDate" disabled />
+               <input className="profile-cardInfo-input" type="text" name="expDate" disabled />
             </div>
             <div>
                <label htmlFor="cvcNumber">CVC: </label>
-               <input className="profile-cardInfo-input" type="text" name="cvcNumber" disabled />
+               <input className="profile-cardInfo-input" type="text" name="cardCvc" disabled />
             </div>
         </div>
        </div>
