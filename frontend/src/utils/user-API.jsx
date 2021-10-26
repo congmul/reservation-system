@@ -30,10 +30,16 @@ export const getSingleUser = async (userData, token) => {
     );
 }
 
-// Get one user
+// Update user
 export const updateUser = async (userData) => {
     console.log(userData);
     return await api.put('/user/', userData);
+}
+
+// Update CardInfo
+export const updateCardInfo = async (cardInfo, username) => {
+    console.log(cardInfo, username);
+    return await api.put(`/user/cardinfo/${username}`, cardInfo);
 }
 
 // export const loginUser = async (userData) => {

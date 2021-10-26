@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { login, getSingleUser, createUser, updateUser } = require('../../controller/user-controller');
+const { login, getSingleUser, createUser, updateUser,  updateUserCardInfo} = require('../../controller/user-controller');
 
 
 // import middleware
@@ -47,6 +47,17 @@ router.put('/', async (req, res) => {
     try {
         console.log("Update Route req.body", req.body);
         let response = await updateUser(req.body)
+        res.json({message: "Success"});
+    }catch(error) {
+        res.status(500).json(error)
+    }
+})
+
+router.put('/cardinfo/:username', async (req, res) => {
+    try {
+        console.log("Update cardinfo Route req.body", req.body);
+        console.log("Update Route username", req.params.username);
+        let response = await updateUserCardInfo(req.body, req.params.username)
         res.json({message: "Success"});
     }catch(error) {
         res.status(500).json(error)

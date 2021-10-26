@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Spinner } from 'react-bootstrap';
 
 import Auth from '../../../utils/auth';
-import { getSingleUser, updateUser } from '../../../utils/user-API';
+import { getSingleUser, updateUser, updateCardInfo } from '../../../utils/user-API';
 
 
 
@@ -35,8 +35,10 @@ const Profile = () => {
       }
     }
 
-    const onChangeCreditCardForm = () => {
-
+    const onChangeCreditCardForm = (event) => {
+      let keyName = event.target.name;
+      let inputValue = event.target.value;
+      setUser({...user, "creditInfo": {...user["creditInfo"], [keyName]: inputValue}})
     }
 
     const onClickProfileUpdate = (event) => {
@@ -97,6 +99,61 @@ const Profile = () => {
 
     }
 
+    const onClickProfileCardUpdate = (event) => {
+      event.preventDefault();
+
+      const allCardInfoInputEl = document.getElementsByClassName('profile-cardInfo-input');
+      const profileCardUpdateBtnEl = document.getElementById('profile-card-update-btn');
+      const profileCardUpdateSubmitEl = document.getElementById('profile-card-update-submit');
+      const profileCardUpdateCancelEl = document.getElementById('profile-card-update-cancel');
+      
+      for(let i = 0; i < allCardInfoInputEl.length; i++){
+          allCardInfoInputEl[i].disabled = false;
+      }
+
+      profileCardUpdateBtnEl.style.display = "none";
+      profileCardUpdateSubmitEl.style.display = "block";
+      profileCardUpdateCancelEl.style.display = "block";
+    }
+
+    const onClickProfileCardSumitBtn = async (event) => {
+      console.log("submit btn")
+      const allCardInfoInputEl = document.getElementsByClassName('profile-cardInfo-input');
+      let cardInfo = {}
+
+      for(let i = 0; i < allCardInfoInputEl.length; i++){
+         cardInfo[allCardInfoInputEl[i].name] = allCardInfoInputEl[i].value;
+      }
+
+      console.log(cardInfo);
+
+      // Update cardInfo
+      try {
+         let response = await updateCardInfo(cardInfo, user.username);
+         console.log(response);
+         onClickProfileCardCancelBtn();
+      }catch(error){
+         console.log(error);
+      }
+
+    }
+
+    const onClickProfileCardCancelBtn = () => {
+       
+      const allCardInfoInputEl = document.getElementsByClassName('profile-cardInfo-input');
+      const profileCardUpdateBtnEl = document.getElementById('profile-card-update-btn');
+      const profileCardUpdateSubmitEl = document.getElementById('profile-card-update-submit');
+      const profileCardUpdateCancelEl = document.getElementById('profile-card-update-cancel');
+      
+      for(let i = 0; i < allCardInfoInputEl.length; i++){
+          allCardInfoInputEl[i].disabled = true;
+      }
+
+      profileCardUpdateBtnEl.style.display = "block";
+      profileCardUpdateSubmitEl.style.display = "none";
+      profileCardUpdateCancelEl.style.display = "none";
+   }
+
     return(<>
         {user != null ? 
         <div className="profile-tab-body-flex">
@@ -115,19 +172,19 @@ const Profile = () => {
             </div>
             <div>
                <label htmlFor="street">Street: </label>
-               <input className="profile-input" type="text" name="street" value={user.address.street ?? ""} onChange={onChangeProfileForm} disabled />
+               <input className="profile-input" type="text" name="street" value={user.address ? user.address.street ?? "" : ""} onChange={onChangeProfileForm} disabled />
             </div>
             <div>
                <label htmlFor="city">City: </label>
-               <input className="profile-input" type="text" name="city" value={user.address.city ?? ""} onChange={onChangeProfileForm} disabled />
+               <input className="profile-input" type="text" name="city" value={user.address ? user.address.city ?? "" : ""} onChange={onChangeProfileForm} disabled />
             </div>
             <div>
                <label htmlFor="state">State: </label>
-               <input className="profile-input" type="text" name="state" value={user.address.state ?? ""} onChange={onChangeProfileForm}  disabled />
+               <input className="profile-input" type="text" name="state" value={user.address ? user.address.state ?? "" : ""} onChange={onChangeProfileForm}  disabled />
             </div>
             <div>
                <label htmlFor="zipcode">Zip code: </label>
-               <input className="profile-input" type="text" name="zipcode" value={user.address.zipcode ?? ""} onChange={onChangeProfileForm} disabled />
+               <input className="profile-input" type="text" name="zipcode" value={user.address ? user.address.zipcode ?? "" : ""} onChange={onChangeProfileForm} disabled />
             </div>
             <div>
                <label htmlFor="email">Email: </label>
@@ -146,23 +203,28 @@ const Profile = () => {
         <div id="profile-tab-body-profile-right">
            <div>
                <label htmlFor="creditCard">Credit Type: </label>
-               <input className="profile-cardInfo-input" type="text" name="cardType" disabled />
+               <input className="profile-cardInfo-input" type="text" name="cardType" value={user.cardInfo ? user.cardInfo.cardType ?? "" : ""} onChange={onChangeCreditCardForm} disabled />
             </div>
             <div>
                <label htmlFor="cardNumber">Card Number: </label>
-               <input className="profile-cardInfo-input" type="text" name="cardNumber" disabled />
+               <input className="profile-cardInfo-input" type="text" name="cardNumber" value={user.cardInfo ? user.cardInfo.cardNumber ?? "" : ""} onChange={onChangeCreditCardForm} disabled />
             </div>
             <div>
                <label htmlFor="cardNumber">Name on card: </label>
-               <input className="profile-cardInfo-input" type="text" name="nameOnCard" disabled />
+               <input className="profile-cardInfo-input" type="text" name="nameOnCard" value={user.cardInfo ? user.cardInfo.nameOnCard ?? "" : ""} onChange={onChangeCreditCardForm} disabled />
             </div>
             <div>
                <label htmlFor="expireDate">Expire: </label>
-               <input className="profile-cardInfo-input" type="text" name="expDate" disabled />
+               <input className="profile-cardInfo-input" type="text" name="expDate" value={user.cardInfo ? user.cardInfo.expDate ?? "" : ""} onChange={onChangeCreditCardForm} disabled />
             </div>
             <div>
                <label htmlFor="cvcNumber">CVC: </label>
-               <input className="profile-cardInfo-input" type="text" name="cardCvc" disabled />
+               <input className="profile-cardInfo-input" type="text" name="cardCvc" value={user.cardInfo ? user.cardInfo.cardCvc ?? "" : ""} onChange={onChangeCreditCardForm} disabled />
+            </div>
+            <div>
+                <button id="profile-card-update-btn" onClick={onClickProfileCardUpdate}>Update</button>
+                <button id="profile-card-update-submit" onClick={onClickProfileCardSumitBtn} style={{"display": "none"}}>Submit</button>
+                <button id="profile-card-update-cancel" onClick={onClickProfileCardCancelBtn} style={{"display": "none"}}>Cancel</button>
             </div>
         </div>
        </div>

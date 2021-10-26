@@ -13,7 +13,7 @@ const userSchema = new Schema({
     phoneNumber: String,
     points: { type: Number, default: 0},
     totalNights: { type: Number, default: 0},
-    creditInfo: {cardType: String, cardNumber: String, nameOnCard: String, expDate: String, cardCvc: String },
+    cardInfo: {cardType: String, cardNumber: String, nameOnCard: String, expDate: String, cardCvc: String },
     reservation:[{ type: Schema.Types.ObjectId, ref: 'Reservation'}],
     createAt: { type: Date, default: Date.now }
 })

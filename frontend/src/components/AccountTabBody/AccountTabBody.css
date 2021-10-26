@@ -81,3 +81,17 @@
     flex: 1 0 auto;
     padding: 3px 10px;
 }
+
+.profile-tab-body-flex #profile-tab-body-profile-right > div > button {
+    flex: 1 0 auto;
+    padding: 10px;
+    margin: 0 10px;
+    border: 1px solid #008B8B;
+    color: #008B8B;
+    background: none;
+    transition: all ease-in-out 0.2s 
+}
+.profile-tab-body-flex #profile-tab-body-profile-right > div > button:hover {
+    background-color: #008B8B;
+    color: white;
+}
