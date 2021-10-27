@@ -18,7 +18,7 @@ const HotelList = (props) => {
             <>
                  {props.hotels.map((hotel) => {
                     return(
-                        <div key={hotel._id} className="d-md-flex border rounded px-3 m-3 w-100 light">
+                        <div key={hotel._id} className="d-md-flex border rounded px-3 m-3 light">
                             <Card hotel={hotel}/>
                             <HotelTable location={hotel.location} rooms={hotel.roomType}/>
                         </div>

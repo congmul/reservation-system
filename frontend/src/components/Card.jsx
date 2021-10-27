@@ -1,8 +1,17 @@
 import React from 'react'
+import { useHistory } from "react-router-dom";
 
 const Card = ({hotel}) => {
+    const history = useHistory();
+
+    const linkTo = () => {
+        console.log('click');
+        let path = `/reserve/${hotel._id}`; 
+        history.push(path);
+    }
+
     return (
-        <div className="card mx-auto my-2 w-auto" role="button">
+        <div className="card mx-auto my-2 w-auto" role="button" onClick={linkTo}>
             <div className="card-header">
                 <p className="fw-bold">{hotel.name} Hotel</p>    
             </div>

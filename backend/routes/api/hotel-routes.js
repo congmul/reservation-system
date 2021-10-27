@@ -24,24 +24,7 @@ router.get('/id/:id', async (req, res) => {
         res.status(error.status).json(error.error);
     }
 });
-router.get('/name/:name', async (req, res) => {
-    try {
-        const hotel = await getHotelByName(req.params.name);
-        console.log(hotel);
-        res.json(hotel);
-    }catch(error){
-        res.status(error.status).json(error.error);
-    }
-});
-router.get('/city/:city', async (req, res) => {
-    try {
-        const hotels = await getHotelsByCity(req.params.city);
-        console.log(hotels);
-        res.json(hotels);
-    }catch(error){
-        res.status(error.status).json(error.error);
-    }
-});
+
 router.get('/featured', async (req, res) => {
     try {
         const hotels = await getFeatured();

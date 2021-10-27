@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios'
 import HotelList from '../../components/HotelList';
 
@@ -28,6 +29,9 @@ const Home = () => {
             <h3 className="mt-5">Featured Hotels:</h3>
             <div className="d-md-flex my-3">
                 <HotelList hotels={featured} showAll={false}/>
+            </div>
+            <div className="text-center py-3">
+                <Link to="/hotels" className="btn btn-dark rounded-pill">See More</Link>
             </div>
         </div>
         </>
