@@ -20,6 +20,7 @@ const getSingleUser = async (userInfo) => {
 const login = async (userInfo) => {
     try {
         const user = await User.findOne({ $or: [{ username: userInfo.username }, { email: userInfo.email }] });
+        console.log(user);
         if (!user) {
             throw { message: "Can't find this user"};
           }
@@ -56,9 +57,33 @@ const createUser = async (userInfo) => {
     }
 }
 
+const updateUser = async (userInfo) => {
+    try{
+        console.log("userInfo in controller", userInfo);
+        let user = await User.updateOne({'username': userInfo.username}, userInfo, { new: true })
+        console.log(user);
+    }catch(error){
+        console.log(error);
+        throw error;
+    }
+}
+
+const updateUserCardInfo = async (cardInfo, username) => {
+    try {
+        console.log("cardInfo in controller", cardInfo, username);
+        let user = await User.updateOne({'username': username}, {"cardInfo": cardInfo}, { new: true })
+        console.log(user);
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
 module.exports = {
     getSingleUser,
     login,
-    createUser
+    createUser,
+    updateUser,
+    updateUserCardInfo
 
 }

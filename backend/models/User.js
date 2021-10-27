@@ -6,9 +6,14 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     username: { type : String, required: true, unique: true },
     password: { type : String, required: true },
+    firstName: String,
+    lastName: String,
     email: { type : String, required: false },
     address: { street: String, city: String, zipcode: Number, state: String},
     phoneNumber: String,
+    points: { type: Number, default: 0},
+    totalNights: { type: Number, default: 0},
+    cardInfo: {cardType: String, cardNumber: String, nameOnCard: String, expDate: String, cardCvc: String },
     reservation:[{ type: Schema.Types.ObjectId, ref: 'Reservation'}],
     createAt: { type: Date, default: Date.now }
 })
