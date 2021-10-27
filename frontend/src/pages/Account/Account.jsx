@@ -42,7 +42,7 @@ const Account = () => {
         <section className="profile-top">
         <img className="" src={profileImg} id="profile-img" alt="profile" />
         <div className="">
-            <div id="profile-username">{user !=null ? user.username : <Spinner animation="border" variant="success" />}</div>
+            <div id="profile-username">{user !=null ? user.firstName !== "" ? user.firstName : user.username : <Spinner animation="border" variant="success" />}</div>
             <div id="profile-menuname">{tabMenuName}</div>
         </div>
         <div className="profile-end">
