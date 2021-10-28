@@ -11,6 +11,6 @@ export const getReservationById = async (id) => {
     return await api.get(`/reservation/${id}`);
 };
 
-export const cancelReservationById = async (id) => {
-    return await api.put(`/reservation/cancel/${id}`);
+export const cancelReservationById = async (id, userId) => {
+    return await api.put(`/reservation/cancel/${id}/${userId}`);
 };
