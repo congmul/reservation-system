@@ -2,7 +2,18 @@ import React from 'react';
 
 import { Carousel } from 'react-bootstrap';
 
-const HotelCard = () => { 
+const HotelCard = ({reservation}) => { 
+    console.log(reservation)
+
+    // useEffect(() => {
+    //     (async () => {
+    //         try{
+                    
+    //         }catch(err) {
+                
+    //         }
+    //     })();
+    // }, [])
 
     return(
     <div className="profile-tab-body-flex hotel-card">
@@ -30,7 +41,7 @@ const HotelCard = () => {
         </div>
         <div id="profile-tab-body-myTrips-right">
             <div className="profile-tab-body-myTrips-right-carousel">
-                <div class="profile-tab-body-myTrips-right-carousel-hotelName">Hotel Name</div>
+                <div className="profile-tab-body-myTrips-right-carousel-hotelName">Hotel Name</div>
                 <Carousel>
                     <Carousel.Item>
                     <img

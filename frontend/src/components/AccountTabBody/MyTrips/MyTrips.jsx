@@ -12,6 +12,13 @@ import './mytrips.css';
 const MyTrips = () => {
 
     const [ user, setUser ] = useState(null);
+    const [subMenuName, setSubMenuName] = useState("Upcoming");
+
+    const [ reservations, setReservations ] = useState({});
+
+    // const [ upcommingRevervation, setUpcommingRevervation ] = useState(null);
+    // const [ canceledRevervation, setCanceledRevervation ] = useState(null);
+    // const [ pastRevervation, setPastRevervation ] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -19,7 +26,44 @@ const MyTrips = () => {
                 const userData = await Auth.getProfile();
                 const token = Auth.getToken();
                 const user = await getSingleUser(userData.data.username, token);
-                console.log(user);
+                console.log(user.data[0]);
+                
+                let reservationArr = user.data[0].reservation ?? [];
+                console.log("reservationArr", reservationArr)
+                let currentDate = new Date(new Date().setHours(0, 0, 0));
+
+                // Sort Upcoming Reservation
+                let upcomingReservation = reservationArr.filter(reservation => {
+                    let dateStart = new Date(reservation.dateStart);
+
+                    if(dateStart >= currentDate && !reservation.isCancel){
+                        return reservation;
+                    }
+                })
+                // setUpcommingRevervation(upcomingReservation);
+
+                // Sort Canceled Reservation
+                let canceledReservation = reservationArr.filter(reservation => {
+                    if(reservation.isCancel){
+                        return reservation;
+                    }
+                })
+                // setCanceledRevervation(canceledReservation);
+
+                // Sort Past Reservation
+                let pastReservation = reservationArr.filter(reservation => {
+                    let dateStart = new Date(reservation.dateStart);
+
+                    if(dateStart < currentDate && !reservation.isCancel){
+                        return reservation;
+                    }
+                })
+                // setPastRevervation(pastReservation);
+                setReservations({
+                    upcomingReservation,
+                    canceledReservation,
+                    pastReservation
+                })
                 setUser(user.data[0])      
             }catch(err) {
                 console.log(err);
@@ -34,6 +78,7 @@ const MyTrips = () => {
             profileTabMenu[i].classList.remove('profile-tab-body-myTrips-clicked');
         }
         event.target.classList.add('profile-tab-body-myTrips-clicked');
+        setSubMenuName(event.target.innerText);     // Store Menu name
     }
 
     return(<>{user != null ? <>
@@ -55,8 +100,10 @@ const MyTrips = () => {
             </div>
         </div>
         <div className="profile-tab-myTrips-hotel-info">
-            <HotelCard />
-            <HotelCard />
+            {subMenuName === "Upcoming" ? <HotelCard reservation={reservations.upcomingReservation} />
+            : subMenuName === "Canceled" ?  <h1>Canceled</h1>
+            : subMenuName === "Past Trips" ? <h1>Past Trips</h1>
+            : <Spinner animation="border" variant="success" /> }
         </div>
         </>
         :
