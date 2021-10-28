@@ -13,54 +13,66 @@ const HotelCard = ({reservation, style}) => {
         (async () => {
             try{
                 let allReservations = [];
-                for(let i = 0; i < reservation.length; i++){
-                    let response = await getReservationById(reservation[i]._id)
-                    allReservations.push(response.data[0]);  
+                if(reservation != null){
+                    for(let i = 0; i < reservation.length; i++){
+                        let response = await getReservationById(reservation[i]._id)
+                        allReservations.push(response.data[0]);  
+                    }
+                    console.log(allReservations);
+                    setAllReservationState([...allReservations]);
+                }else{
+                    setAllReservationState(null);
                 }
-                setAllReservationState([...allReservations]);
             }catch(err) {
                 console.log(err);
             }
         })();
     }, [reservation])
 
-    
+    const selectedHotelRoom =  (roomId, roomTypeArr) => {
+        // console.log(roomTypeArr);
+        // console.log(roomId)
+        const selectedRoom = roomTypeArr.filter(roomType => roomId == roomType._id)
+        console.log(selectedRoom)
+        return selectedRoom[0];
+    }
 
     return(<>
-    {allReservationState.length > 0 
-    ? allReservationState.map(reservation => {
+    { allReservationState != null ?
+    allReservationState.length > 0 
+    ? allReservationState.map(singleReservation => {
         return(
-            <div className="profile-tab-body-flex hotel-card" key={reservation._id}>
+            <div className="profile-tab-body-flex hotel-card" key={singleReservation._id}>
                 <div id="profile-tab-body-myTrips-left">
                     <div className="profile-tab-body-myTrips-left-sec">
                         <div className="profile-tab-body-myTrips-left-sec-label">Location:</div>
-                        <div className="profile-tab-body-myTrips-left-sec-value">{reservation.hotel.location.state}</div>
+                        <div className="profile-tab-body-myTrips-left-sec-value">{singleReservation.hotel.location.state}</div>
                     </div>
                     <div className="profile-tab-body-myTrips-left-sec">
                         <div className="profile-tab-body-myTrips-left-sec-label">Room type:</div>
-                        <div className="profile-tab-body-myTrips-left-sec-value">1 Queen bed</div>
+                        <div className="profile-tab-body-myTrips-left-sec-value">1 {selectedHotelRoom(singleReservation.roomId, singleReservation.hotel.roomType).name}</div>
                     </div>
                     <div className="profile-tab-body-myTrips-left-sec">
                         <div className="profile-tab-body-myTrips-left-sec-label">Price:</div>
-                        <div className="profile-tab-body-myTrips-left-sec-value">$250</div>
+                        <div className="profile-tab-body-myTrips-left-sec-value">$ {selectedHotelRoom(singleReservation.roomId, singleReservation.hotel.roomType).price}</div>
                     </div>
                     <div className="profile-tab-body-myTrips-left-sec">
                         <div className="profile-tab-body-myTrips-left-sec-label">Start:</div>
-                        <div className="profile-tab-body-myTrips-left-sec-value" style={style}>{reservation.dateStart.substring(0, 10)}</div>
+                        <div className="profile-tab-body-myTrips-left-sec-value" style={style}>{singleReservation.dateStart.substring(0, 10)}</div>
                     </div>
                     <div className="profile-tab-body-myTrips-left-sec">
                         <div className="profile-tab-body-myTrips-left-sec-label">End:</div>
-                        <div className="profile-tab-body-myTrips-left-sec-value" style={style}>{reservation.dateEnd.substring(0, 10)}</div>
+                        <div className="profile-tab-body-myTrips-left-sec-value" style={style}>{singleReservation.dateEnd.substring(0, 10)}</div>
                     </div>
                 </div>
         <div id="profile-tab-body-myTrips-right">
             <div className="profile-tab-body-myTrips-right-carousel">
-                <div className="profile-tab-body-myTrips-right-carousel-hotelName">{reservation.hotel.name}</div>
+                <div className="profile-tab-body-myTrips-right-carousel-hotelName">{singleReservation.hotel.name}</div>
                 <Carousel>
                     <Carousel.Item>
                     <img
                         className="d-block w-100"
-                        src={reservation.hotel.image}
+                        src={singleReservation.hotel.image}
                         alt="hotel"
                     />
                     </Carousel.Item>
@@ -80,7 +92,9 @@ const HotelCard = ({reservation, style}) => {
     :   <div className="hotel-card" style={{"textAlign":"center"}}>
             <Spinner animation="border" variant="success" />
         </div>
-
+    :   <div className="hotel-card" style={{"textAlign":"center"}}>
+            <h1>No Data</h1>
+        </div>
     }
     </>
     // <div className="profile-tab-body-flex hotel-card">

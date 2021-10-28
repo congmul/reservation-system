@@ -35,38 +35,47 @@ const MyTrips = () => {
                 console.log("reservationArr", reservationArr)
                 let currentDate = new Date(new Date().setHours(0, 0, 0));
 
-                // Sort Upcoming Reservation
-                let upcomingReservation = reservationArr.filter(reservation => {
-                    let dateStart = new Date(reservation.dateStart);
+                if(reservationArr.length > 0){
+                    // Sort Upcoming Reservation
+                    let upcomingReservation = reservationArr.filter(reservation => {
+                        let dateStart = new Date(reservation.dateStart);
+    
+                        if(dateStart >= currentDate && !reservation.isCancel){
+                            return reservation;
+                        }
+                    })
+                    // setUpcommingRevervation(upcomingReservation);
+    
+                    // Sort Canceled Reservation
+                    let canceledReservation = reservationArr.filter(reservation => {
+                        if(reservation.isCancel){
+                            return reservation;
+                        }
+                    })
+                    // setCanceledRevervation(canceledReservation);
+    
+                    // Sort Past Reservation
+                    let pastReservation = reservationArr.filter(reservation => {
+                        let dateStart = new Date(reservation.dateStart);
+    
+                        if(dateStart < currentDate && !reservation.isCancel){
+                            return reservation;
+                        }
+                    })
+                    // setPastRevervation(pastReservation);
+                    setReservations({
+                        upcomingReservation,
+                        canceledReservation,
+                        pastReservation
+                    })
+                }else{
+                    setReservations({
+                        upcomingReservation: null,
+                        canceledReservation: null,
+                        pastReservation: null
+                    })
+                }
 
-                    if(dateStart >= currentDate && !reservation.isCancel){
-                        return reservation;
-                    }
-                })
-                // setUpcommingRevervation(upcomingReservation);
-
-                // Sort Canceled Reservation
-                let canceledReservation = reservationArr.filter(reservation => {
-                    if(reservation.isCancel){
-                        return reservation;
-                    }
-                })
-                // setCanceledRevervation(canceledReservation);
-
-                // Sort Past Reservation
-                let pastReservation = reservationArr.filter(reservation => {
-                    let dateStart = new Date(reservation.dateStart);
-
-                    if(dateStart < currentDate && !reservation.isCancel){
-                        return reservation;
-                    }
-                })
-                // setPastRevervation(pastReservation);
-                setReservations({
-                    upcomingReservation,
-                    canceledReservation,
-                    pastReservation
-                })
                 setUser(user.data[0])      
             }catch(err) {
                 console.log(err);
