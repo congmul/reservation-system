@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getReservation, createReservation, getReservationById } = require('../../controller/reservation-controller');
+const { getReservation, createReservation, getReservationById, cancelReservationById } = require('../../controller/reservation-controller');
 
 // PATH:  /api/reservation/
 router.get('/', async (req, res) => {
@@ -18,6 +18,17 @@ router.get('/:id', async (req, res) => {
     try {
         console.log(req.params.id);
         const response = await getReservationById(req.params.id);
+        console.log(response);
+        res.json(response);
+    }catch(error){
+        throw error;
+    }
+})
+
+router.put('/cancel/:id', async (req, res) => {
+    try {
+        console.log(req.params.id);
+        const response = await cancelReservationById(req.params.id);
         console.log(response);
         res.json(response);
     }catch(error){

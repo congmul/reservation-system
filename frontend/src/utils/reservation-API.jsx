@@ -10,3 +10,7 @@ const api = axios.create({
 export const getReservationById = async (id) => {
     return await api.get(`/reservation/${id}`);
 };
+
+export const cancelReservationById = async (id) => {
+    return await api.put(`/reservation/cancel/${id}`);
+};

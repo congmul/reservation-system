@@ -17,6 +17,15 @@ const getReservationById = async (id) => {
         return {message: "Cannot find the reservation", error};
     }
 }
+const cancelReservationById = async (id) => {
+    try {
+        console.log("reservation id",id)
+        const response = await Reservation.updateOne({"_id": id}, { isCancel: true });
+        return response;
+    }catch(error) {
+        return {message: "Cannot find the reservation", error};
+    }
+}
 
 const createReservation = async (reservationData, username) => {
     try {
@@ -75,6 +84,7 @@ const createReservation = async (reservationData, username) => {
 module.exports = {
     getReservation,
     getReservationById,
+    cancelReservationById,
     createReservation
 
 }
