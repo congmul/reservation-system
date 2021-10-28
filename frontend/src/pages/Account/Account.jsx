@@ -42,7 +42,7 @@ const Account = () => {
         <section className="profile-top">
         <img className="" src={profileImg} id="profile-img" alt="profile" />
         <div className="">
-            <div id="profile-username">{user !=null ? user.username : <Spinner animation="border" variant="success" />}</div>
+            <div id="profile-username">{user !=null ? user.firstName !== "" ? user.firstName : user.username : <Spinner animation="border" variant="success" />}</div>
             <div id="profile-menuname">{tabMenuName}</div>
         </div>
         <div className="profile-end">
@@ -62,16 +62,18 @@ const Account = () => {
          </div>
     </section>
 
-    <section className="profile-menu">
-        <div id="profile-tab-header">
-            <div className="profile-tab-menu profile-tab-clicked" onClick={onClickTabMenu}>
-                Overview
-            </div>
-            <div className="profile-tab-menu" onClick={onClickTabMenu}>
-                My Trips
-            </div>
-            <div className="profile-tab-menu" onClick={onClickTabMenu}>
-                Profile
+    <section>
+        <div className="profile-menu">
+            <div id="profile-tab-header">
+                <div className="profile-tab-menu profile-tab-clicked" onClick={onClickTabMenu}>
+                    Overview
+                </div>
+                <div className="profile-tab-menu" onClick={onClickTabMenu}>
+                    My Trips
+                </div>
+                <div className="profile-tab-menu" onClick={onClickTabMenu}>
+                    Profile
+                </div>
             </div>
         </div>
         <div id="profile-tab-body">
