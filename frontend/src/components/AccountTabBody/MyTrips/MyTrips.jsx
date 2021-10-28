@@ -116,7 +116,7 @@ const MyTrips = () => {
             </div>
         </div>
         <div className="profile-tab-myTrips-hotel-info">
-            {subMenuName === "Upcoming" ? <HotelCard reservation={reservations.upcomingReservation} upcoming={true} setIsUpdate={setIsUpdate} />
+            {subMenuName === "Upcoming" ? <HotelCard reservation={reservations.upcomingReservation} userId={user._id} upcoming={true} setIsUpdate={setIsUpdate} />
             : subMenuName === "Canceled" ?  <HotelCard reservation={reservations.canceledReservation} style={canceledReservationStyle}/>
             : subMenuName === "Past Trips" ? <HotelCard reservation={reservations.pastReservation} />
             : <Spinner animation="border" variant="success" /> }

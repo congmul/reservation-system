@@ -4,7 +4,7 @@ import { Carousel, Spinner } from 'react-bootstrap';
 
 import { getReservationById, cancelReservationById } from '../../../../utils/reservation-API';
 
-const HotelCard = ({reservation, upcoming=false, style, setIsUpdate}) => { 
+const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) => { 
     console.log(reservation)
 
     const [ allReservationState, setAllReservationState ] = useState([]);
@@ -41,9 +41,10 @@ const HotelCard = ({reservation, upcoming=false, style, setIsUpdate}) => {
     const onClickcancelUpcomingReser = async (event) => {
         try {
             const reservationId = event.target.dataset.id;
+            const userId = event.target.dataset.userId;
 
             // Update a reservation by id to cancel.
-            const updated = await cancelReservationById(reservationId);
+            const updated = await cancelReservationById(reservationId, userId);
             console.log(updated);
             setIsUpdate(updated);
         }catch(error) {
@@ -79,7 +80,7 @@ const HotelCard = ({reservation, upcoming=false, style, setIsUpdate}) => {
                         <div className="profile-tab-body-myTrips-left-sec-value" style={style}>{singleReservation.dateEnd.substring(0, 10)}</div>
                     </div>
                     <div className="profile-tab-body-myTrips-left-sec">
-                        {upcoming ? <button data-id={singleReservation._id} onClick={onClickcancelUpcomingReser}>Cancel</button> : <></>}
+                        {upcoming ? <button data-id={singleReservation._id} data-user-id={userId} onClick={onClickcancelUpcomingReser}>Cancel</button> : <></>}
                     </div>
                 </div>
         <div id="profile-tab-body-myTrips-right">
