@@ -17,11 +17,24 @@ const ReserveForm = ({rooms, hotelid}) => {
 
     const findAvailable = async (event) =>{
         event.preventDefault();
-        console.log(formData);
-        //convert checkin/checkout, find difference
-        const date1 = new Date(formData.checkin);
-        const date2 = new Date(formData.checkout);
-        const timeDif = date2.getTime() - date1.getTime();
+        //error handling
+        if(formData.numRooms < 1){
+            alert('Rooms must be 1 or more');
+            return;
+        }        
+        if(formData.checkin >= formData.checkout){
+            alert('Check out date must be after check in date');
+            return;
+        }
+        const today = new Date().toISOString().slice(0, 10); //no time, only date
+        if(today > formData.checkin){
+            alert("Check in date cannot be before today");
+            return;
+        }
+        //find stay length in days
+        const inDate = new Date(formData.checkin);
+        const outDate = new Date(formData.checkout);
+        const timeDif = outDate.getTime() - inDate.getTime(); //milliseconds
         setNights(timeDif / (1000 * 3600 *24)); //convert to days
         
         try{
@@ -50,15 +63,15 @@ const ReserveForm = ({rooms, hotelid}) => {
             <form className="p-3" onSubmit={findAvailable}>
             <div className="d-md-flex">
                 <div className="m-3">
-                    <label for="checkin" className="form-label">Check In:</label>
+                    <label htmlFor="checkin" className="form-label">Check In:</label>
                     <input type="date" className="form-control" id="checkin" name="checkin" onChange={handleInputChange}/>
                 </div>
                 <div className="m-3">
-                    <label for="checkout" className="form-label">Check Out:</label>
+                    <label htmlFor="checkout" className="form-label">Check Out:</label>
                     <input type="date" className="form-control" id="checkout" name="checkout" onChange={handleInputChange}/>
                 </div>
                 <div className="m-3">
-                    <label for="numRooms" className="form-label">Rooms:</label>
+                    <label htmlFor="numRooms" className="form-label">Rooms:</label>
                     <input type="number" className="form-control" id="numRooms" name="numRooms" onChange={handleInputChange}/>
                 </div>
                 <div className="m-3 mt-5">
