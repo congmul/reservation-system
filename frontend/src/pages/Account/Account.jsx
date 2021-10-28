@@ -62,16 +62,18 @@ const Account = () => {
          </div>
     </section>
 
-    <section className="profile-menu">
-        <div id="profile-tab-header">
-            <div className="profile-tab-menu profile-tab-clicked" onClick={onClickTabMenu}>
-                Overview
-            </div>
-            <div className="profile-tab-menu" onClick={onClickTabMenu}>
-                My Trips
-            </div>
-            <div className="profile-tab-menu" onClick={onClickTabMenu}>
-                Profile
+    <section>
+        <div className="profile-menu">
+            <div id="profile-tab-header">
+                <div className="profile-tab-menu profile-tab-clicked" onClick={onClickTabMenu}>
+                    Overview
+                </div>
+                <div className="profile-tab-menu" onClick={onClickTabMenu}>
+                    My Trips
+                </div>
+                <div className="profile-tab-menu" onClick={onClickTabMenu}>
+                    Profile
+                </div>
             </div>
         </div>
         <div id="profile-tab-body">
