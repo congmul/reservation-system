@@ -70,10 +70,11 @@ const cancelReservationById = async (id, userId) => {
     }
 }
 
-const createReservation = async (reservationData, username, price=0) => {
+const createReservation = async (reservationData, userId, roomPrice=0) => {
     try {
         // Validation for checking duplicate booked date.
-        const userData = await User.find({"username": username}).populate("reservation");
+        console.log("userId", userId, "userId")
+        const userData = await User.find({"_id": userId}).populate("reservation");
         console.log("userData[0]", userData);
         if(userData.length == 0){
             return {message: "Cannot find the user"}
@@ -85,15 +86,15 @@ const createReservation = async (reservationData, username, price=0) => {
                 userData[0].reservation.filter(userReservationData => {
                     let currentDate = new Date();
                     let dateStart = userReservationData.dateStart;
-                    if(dateStart >= currentDate){
+                    if(dateStart >= currentDate && !userReservationData.isCancel){
                         console.log(dateStart, "in ifstatment")
                         return userReservationData;
                     }
                 }) 
             : [];
 
-        console.log(upComingUserReservation);
-        console.log(reservationData)
+        console.log("upComingUserReservation", upComingUserReservation);
+        console.log("reservationData", reservationData)
 
         let inputStartDate = new Date(reservationData.dateStart);
         let inputEndDate = new Date(reservationData.dateEnd);
@@ -120,8 +121,6 @@ const createReservation = async (reservationData, username, price=0) => {
         let currentPoints = userData[0].points;
         let currentNights = userData[0].totalNights;
 
-        // TODO: test price 
-        let testPrice = 250;
 
         let diffDate = (new Date(inputEndDate).getDate() + 1) - (new Date(inputStartDate).getDate() + 1)
         let diffMonth = (new Date(inputEndDate).getMonth() + 1) - (new Date(inputStartDate).getMonth() + 1)
@@ -133,13 +132,13 @@ const createReservation = async (reservationData, username, price=0) => {
         let updatedNights = stayDays + currentNights;
 
         // 2 points per dollar
-        let updatedPoints = ((testPrice * 2) * stayDays) + currentPoints;
+        let updatedPoints = ((parseInt(roomPrice) * 2) * stayDays) + currentPoints;
         console.log(updatedNights, updatedPoints);
 
 
 
         // // Update for Storing reservation id and Points and Nights to User.
-        const userResponse = await User.updateOne({"username": username}, 
+        const userResponse = await User.updateOne({"_id": userId}, 
         {$set : {"points": updatedPoints, "totalNights": updatedNights}, $push: { reservation: reservationInfo._id} },
         { new: true })
         console.log(userResponse);

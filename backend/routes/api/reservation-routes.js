@@ -37,10 +37,11 @@ router.put('/cancel/:id/:userId', async (req, res) => {
     }
 })
 
-router.post('/:username', async (req, res) => {
+router.post('/:userId/:roomPrice', async (req, res) => {
     try {
+        console.log(req.params.userId)
         console.log(req.body);
-        const response = await createReservation(req.body, req.params.username);
+        const response = await createReservation(req.body, req.params.userId, req.params.roomPrice);
         // console.log(response);
         res.json(response);
     }catch(error){
