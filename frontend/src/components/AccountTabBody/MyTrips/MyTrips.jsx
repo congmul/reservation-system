@@ -16,6 +16,10 @@ const MyTrips = () => {
 
     const [ reservations, setReservations ] = useState({});
 
+    // Pass HotelCard component to handle update, 
+    // When canceling a reservation on HotelCard, update isUpdate to rerender this component 
+    const [ isUpdate, setIsUpdate ] = useState(false);  
+
     const canceledReservationStyle = {
         "textDecoration": "line-through", 
         "textDecorationColor": "red", 
@@ -81,7 +85,7 @@ const MyTrips = () => {
                 console.log(err);
             }
         })();
-    }, [])
+    }, [isUpdate])
 
     const onClickTripsMenu = (event) => {
         const profileTabMenu = document.getElementsByClassName('profile-tab-body-myTrips-menu-div');
@@ -112,7 +116,7 @@ const MyTrips = () => {
             </div>
         </div>
         <div className="profile-tab-myTrips-hotel-info">
-            {subMenuName === "Upcoming" ? <HotelCard reservation={reservations.upcomingReservation} upcoming={true}/>
+            {subMenuName === "Upcoming" ? <HotelCard reservation={reservations.upcomingReservation} upcoming={true} setIsUpdate={setIsUpdate} />
             : subMenuName === "Canceled" ?  <HotelCard reservation={reservations.canceledReservation} style={canceledReservationStyle}/>
             : subMenuName === "Past Trips" ? <HotelCard reservation={reservations.pastReservation} />
             : <Spinner animation="border" variant="success" /> }
