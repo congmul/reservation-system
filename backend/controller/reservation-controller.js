@@ -27,7 +27,7 @@ const cancelReservationById = async (id) => {
     }
 }
 
-const createReservation = async (reservationData, username) => {
+const createReservation = async (reservationData, username, price=0) => {
     try {
         // Validation for checking duplicate booked date.
         const userData = await User.find({"username": username}).populate("reservation");
@@ -36,6 +36,8 @@ const createReservation = async (reservationData, username) => {
             return {message: "Cannot find the user"}
         }
 
+
+        // Getting all upComing Reservation of the user to compare them with InputReservation.
         let upComingUserReservation = userData[0]["reservation"] ? 
                 userData[0].reservation.filter(userReservationData => {
                     let currentDate = new Date();
@@ -71,10 +73,32 @@ const createReservation = async (reservationData, username) => {
         console.log("Make a reservation!!")
         const reservationInfo = await Reservation.create(reservationData);
 
-        // Update for Storing reservation id to User.
-        const userResponse = await User.updateOne({"username": username}, {$push: { reservation: reservationInfo._id}})
+        // Storing the current Points & Nights
+        let currentPoints = userData[0].points;
+        let currentNights = userData[0].totalNights;
 
-        return {message: "Succeed"}
+        // TODO: test price 
+        let testPrice = 250;
+
+        let diffDate = (new Date(inputEndDate).getDate() + 1) - (new Date(inputStartDate).getDate() + 1)
+        let diffMonth = (new Date(inputEndDate).getMonth() + 1) - (new Date(inputStartDate).getMonth() + 1)
+        let diffYear = (new Date(inputEndDate).getFullYear() + 1) - (new Date(inputStartDate).getFullYear() + 1)
+
+        console.log(diffDate, diffMonth, diffYear)
+        let updatedNights = (diffDate + diffMonth * 30 + diffYear * 365) + currentNights;
+
+        // 2 points per dollar
+        let updatedPoints = ((testPrice * 2) * updatedNights) + currentPoints;
+        console.log(updatedNights, updatedPoints);
+
+
+
+        // // Update for Storing reservation id and Points and Nights to User.
+        const userResponse = await User.updateOne({"username": username}, 
+        {$set : {"points": updatedPoints, "totalNights": updatedNights}, $push: { reservation: reservationInfo._id} },
+        { new: true })
+        console.log(userResponse);
+        return {message: "Succeed", userResponse}
 
     }catch(error) {
         throw error;
