@@ -4,7 +4,7 @@ import { Carousel, Spinner } from 'react-bootstrap';
 
 import { getReservationById } from '../../../../utils/reservation-API';
 
-const HotelCard = ({reservation, style}) => { 
+const HotelCard = ({reservation, upcoming=false, style}) => { 
     console.log(reservation)
 
     const [ allReservationState, setAllReservationState ] = useState([]);
@@ -63,6 +63,9 @@ const HotelCard = ({reservation, style}) => {
                     <div className="profile-tab-body-myTrips-left-sec">
                         <div className="profile-tab-body-myTrips-left-sec-label">End:</div>
                         <div className="profile-tab-body-myTrips-left-sec-value" style={style}>{singleReservation.dateEnd.substring(0, 10)}</div>
+                    </div>
+                    <div className="profile-tab-body-myTrips-left-sec">
+                        {upcoming ? <button>Cancel</button> : <></>}
                     </div>
                 </div>
         <div id="profile-tab-body-myTrips-right">
