@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const reservationSchema = new Schema({
     hotel:{ type: Schema.Types.ObjectId, ref: 'Hotel'},
-    roomId: String,
+    roomId: {type: Schema.Types.ObjectId, ref: 'RoomType'},
     dateStart: { type: Date },
     dateEnd: { type: Date },
     isCancel: { type: Boolean, default: false }
