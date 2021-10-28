@@ -16,9 +16,12 @@ const MyTrips = () => {
 
     const [ reservations, setReservations ] = useState({});
 
-    // const [ upcommingRevervation, setUpcommingRevervation ] = useState(null);
-    // const [ canceledRevervation, setCanceledRevervation ] = useState(null);
-    // const [ pastRevervation, setPastRevervation ] = useState(null);
+    const canceledReservationStyle = {
+        "textDecoration": "line-through", 
+        "textDecorationColor": "red", 
+        "textDecorationThickness": "2px", 
+        "color":"gray"
+    }
 
     useEffect(() => {
         (async () => {
@@ -101,8 +104,8 @@ const MyTrips = () => {
         </div>
         <div className="profile-tab-myTrips-hotel-info">
             {subMenuName === "Upcoming" ? <HotelCard reservation={reservations.upcomingReservation} />
-            : subMenuName === "Canceled" ?  <h1>Canceled</h1>
-            : subMenuName === "Past Trips" ? <h1>Past Trips</h1>
+            : subMenuName === "Canceled" ?  <HotelCard reservation={reservations.canceledReservation} style={canceledReservationStyle}/>
+            : subMenuName === "Past Trips" ? <HotelCard reservation={reservations.pastReservation} />
             : <Spinner animation="border" variant="success" /> }
         </div>
         </>

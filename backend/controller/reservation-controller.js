@@ -5,7 +5,16 @@ const getReservation = async () => {
         const response = await Reservation.find({}).populate('hotel');
         return response;
     }catch(error) {
-        throw error;
+        return {message: "Cannot find the reservation", error}
+    }
+}
+
+const getReservationById = async (id) => {
+    try {
+        const response = await Reservation.find({"_id": id}).populate('hotel');
+        return response;
+    }catch(error) {
+        return {message: "Cannot find the reservation", error};
     }
 }
 
@@ -65,6 +74,7 @@ const createReservation = async (reservationData, username) => {
 
 module.exports = {
     getReservation,
+    getReservationById,
     createReservation
 
 }
