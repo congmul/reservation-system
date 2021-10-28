@@ -13,7 +13,8 @@ const HotelCard = ({reservation, upcoming=false, style, setIsUpdate}) => {
         (async () => {
             try{
                 let allReservations = [];
-                if(reservation != null){
+                if(reservation != null && reservation.length > 0){
+                    console.log(reservation);
                     for(let i = 0; i < reservation.length; i++){
                         let response = await getReservationById(reservation[i]._id)
                         allReservations.push(response.data[0]);  
