@@ -64,7 +64,11 @@ const Profile = () => {
         const profileUpdateCancelEl = document.getElementById('profile-update-cancel');
         
         for(let i = 0; i < allInputEl.length; i++){
-            allInputEl[i].disabled = false;
+           if(allInputEl[i].name === "username" || allInputEl[i].name === "email"){
+         
+            }else{
+              allInputEl[i].disabled = false;
+           }
         }
 
         profileUpdateBtnEl.style.display = "none";
