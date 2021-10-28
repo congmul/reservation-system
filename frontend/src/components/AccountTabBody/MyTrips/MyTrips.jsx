@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { Spinner, Carousel } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 
 import HotelCard from './HotelCard/HotelCard';
 
