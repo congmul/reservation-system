@@ -5,7 +5,7 @@ import { loginUser } from "../../../utils/user-API";
 import Auth from '../../../utils/auth';
 
 import { useDispatch } from 'react-redux'
-import { setFirstName, setPoints, setTotalNights } from '../../../redux/slices/user/userSlice';
+import { setFirstName, setUsername, setPoints, setTotalNights } from '../../../redux/slices/user/userSlice';
 
 const SignIn = ( {closeModal} ) => { 
     const [userFormData, setUserFormData] = useState({ username: '', password: '' }); 
@@ -51,6 +51,7 @@ const SignIn = ( {closeModal} ) => {
 
             // To store user data in Redux state
             dispatch(setFirstName(user.firstName));
+            dispatch(setUsername(user.username));
             dispatch(setPoints(user.points));
             dispatch(setTotalNights(user.totalNights));
 
