@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
-        firstName: "",
+        firstName: "init",
         points:0,
         totalNights: 0
     },
@@ -14,6 +14,6 @@ export const userSlice = createSlice({
     }
 })
 
-export const { increment, decrement, incrementByAmount } = userSlice.actions;
+export const { setFirstName, setPoints, setTotalNights } = userSlice.actions;
 
 export default userSlice.reducer;
