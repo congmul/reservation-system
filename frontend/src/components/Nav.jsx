@@ -37,7 +37,7 @@ const Nav = () => {
                 dispatch(setTotalNights(user.data.totalNights));
             }
         })();
-    }, [])
+    }, [dispatch])
 
     return (
         <nav className="navbar navbar-expand navbar-dark blue">
