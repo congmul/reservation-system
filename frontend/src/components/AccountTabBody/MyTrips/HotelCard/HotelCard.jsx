@@ -42,7 +42,7 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
     const selectedHotelRoom =  (roomId, roomTypeArr) => {
         // console.log(roomTypeArr);
         // console.log(roomId)
-        const selectedRoom = roomTypeArr.filter(roomType => roomId == roomType._id)
+        const selectedRoom = roomTypeArr.filter(roomType => {return roomId === roomType._id})
         // console.log(selectedRoom)
         return selectedRoom[0];
     }
