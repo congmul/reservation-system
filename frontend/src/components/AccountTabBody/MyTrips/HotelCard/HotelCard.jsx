@@ -4,10 +4,17 @@ import { Carousel, Spinner } from 'react-bootstrap';
 
 import { getReservationById, cancelReservationById } from '../../../../utils/reservation-API';
 
+import { useDispatch } from 'react-redux'
+import { setPoints, setTotalNights } from '../../../../redux/slices/user/userSlice';
+
+
 const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) => { 
     console.log(reservation)
 
     const [ allReservationState, setAllReservationState ] = useState([]);
+
+    // To store user data on Redux
+    const dispatch = useDispatch();
 
     useEffect(() => {
         (async () => {
@@ -45,7 +52,11 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
 
             // Update a reservation by id to cancel.
             const updated = await cancelReservationById(reservationId, userId);
-            console.log(updated);
+
+            // Store two states in Redux state
+            dispatch(setTotalNights(updated.data.updatedNights));
+            dispatch(setPoints(updated.data.updatedPoints));
+
             setIsUpdate(updated);
         }catch(error) {
             console.log(error);
