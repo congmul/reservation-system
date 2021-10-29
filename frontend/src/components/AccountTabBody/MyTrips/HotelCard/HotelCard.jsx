@@ -9,7 +9,7 @@ import { setPoints, setTotalNights } from '../../../../redux/slices/user/userSli
 
 
 const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) => { 
-    console.log(reservation)
+    // console.log(reservation)
 
     const [ allReservationState, setAllReservationState ] = useState([]);
 
@@ -19,14 +19,16 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
     useEffect(() => {
         (async () => {
             try{
+                setAllReservationState([]);
+                
                 let allReservations = [];
                 if(reservation != null && reservation.length > 0){
-                    console.log(reservation);
+                    // console.log(reservation);
                     for(let i = 0; i < reservation.length; i++){
                         let response = await getReservationById(reservation[i]._id)
                         allReservations.push(response.data[0]);  
                     }
-                    console.log(allReservations);
+                    // console.log(allReservations);
                     setAllReservationState([...allReservations]);
                 }else{
                     setAllReservationState(null);
@@ -41,7 +43,7 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
         // console.log(roomTypeArr);
         // console.log(roomId)
         const selectedRoom = roomTypeArr.filter(roomType => roomId == roomType._id)
-        console.log(selectedRoom)
+        // console.log(selectedRoom)
         return selectedRoom[0];
     }
 
