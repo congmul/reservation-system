@@ -63,8 +63,8 @@ const cancelReservationById = async (id, userId) => {
         
         // Update Reservation
         const response = await Reservation.updateOne({"_id": id}, { isCancel: true });
-        
-        return {message: "cancel it successfully", response, userResponse};
+        return {message: "cancel it successfully", updatedNights, updatedPoints};
+        // return {message: "cancel it successfully", response, userResponse, updatedNights, updatedPoints};
     }catch(error) {
         return {message: "Cannot find the reservation", error};
     }
