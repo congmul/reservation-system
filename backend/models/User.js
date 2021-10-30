@@ -10,7 +10,7 @@ const userSchema = new Schema({
     lastName: String,
     email: { type : String, required: false },
     address: { street: String, city: String, zipcode: Number, state: String},
-    billingAddress: { firstName: String, lastName: String, street: String, city: String, zipcode: Number, state: String},
+    billingAddress: { firstName: String, lastName: String, street: String, city: String, zipcode: String, state: String},
     phoneNumber: String,
     points: { type: Number, default: 0},
     totalNights: { type: Number, default: 0},

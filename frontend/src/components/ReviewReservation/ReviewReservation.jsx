@@ -60,11 +60,31 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
         }
     }
 
+    // Check if There is  Billing Address information
+    const checkbillingAddress = () => {
+        if(user.billingAddress != null 
+            && user.billingAddress.firstName.length > 0
+            && user.billingAddress.lastName.length > 0
+            && user.billingAddress.street.length > 0
+            && user.billingAddress.city.length > 0
+            && user.billingAddress.state.length > 0
+            && user.billingAddress.zipcode.length > 0
+        ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     const submitReservation = () => {
         if(checkCardInfo()){
-            console.log("Make a reservation")
+            if(checkbillingAddress()){
+                // TODO: Make a reservation
+                console.log("Make a reservation")
+            }else{
+                alert("Please Add Billing Address Information")
+            }
         }else{
-            console.log("Have to Input card Information")
             alert("Please Add Credit Card Information")
         }
     }

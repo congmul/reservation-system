@@ -34,17 +34,11 @@ const BillingAddress = ( {user, setUser} ) => {
     const onClickreservationBillingAddressSumitBtn = async () => {
       console.log("submit btn")
       const allInputEl = document.getElementsByClassName('reservationBillingAddress-input');
-      let userInfo = {}
       let billingAddress = {}
       for(let i = 0; i < allInputEl.length; i++){
-        //  if(allInputEl[i].name === "street" || allInputEl[i].name === "city" || allInputEl[i].name === "zipcode" || allInputEl[i].name === "state"){
-            billingAddress[allInputEl[i].name] = allInputEl[i].value;
-        //  }
-        //  else{
-        //     userInfo[allInputEl[i].name] = allInputEl[i].value;
-        //  }
+          billingAddress[allInputEl[i].name] = allInputEl[i].value;
       }
-    //   userInfo["billingAddress"] = billingAddress;
+
       console.log(billingAddress);
       
       // Update billingAddress
@@ -76,7 +70,7 @@ const BillingAddress = ( {user, setUser} ) => {
 
 
     return(<>
-        <div id="reservationBillingAddress-tab-body-reservationBillingAddress-left">
+        <div className="reviewReseravation-cardInfo" id="reservationBillingAddress-tab-body-reservationBillingAddress-left">
             <div>
                <label htmlFor="firstName">First Name: </label>
                <input className="reservationBillingAddress-input" type="text" name="firstName" value={user.firstName ?? ""} onChange={onChangereservationBillingAddressForm} disabled />

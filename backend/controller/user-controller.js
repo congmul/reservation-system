@@ -71,7 +71,7 @@ const updateUser = async (userInfo) => {
 const updateUserCardInfo = async (cardInfo, username) => {
     try {
         console.log("cardInfo in controller", cardInfo, username);
-        let user = await User.updateOne({'_id': username}, {"cardInfo": cardInfo}, { new: true })
+        let user = await User.updateOne({'username': username}, {"cardInfo": cardInfo}, { new: true })
         return user;
     }catch(error){
         console.log(error)
