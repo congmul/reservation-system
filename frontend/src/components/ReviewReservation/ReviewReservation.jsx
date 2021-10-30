@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import './reviewReservation.css';
 
 import Auth from '../../utils/auth';
-import { getSingleUser, updateCardInfo } from '../../utils/user-API';
+import { getSingleUser } from '../../utils/user-API';
 
 import { Spinner } from 'react-bootstrap';
 
@@ -14,7 +14,6 @@ import BillingAddress from './BillingAddress/BillingAddress';
 const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
 
     const [ user, setUser ] = useState(null);
-    // const [ isCardInfo, setIsCardInfo ] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -81,6 +80,9 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
             if(checkbillingAddress()){
                 // TODO: Make a reservation
                 console.log("Make a reservation")
+                
+                closeModal();
+                window.location.assign('/account');
             }else{
                 alert("Please Add Billing Address Information")
             }
@@ -119,6 +121,7 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
                 </div>
                 <div className="reviewReseravation-flex">
                     <button className="reviewReseravation-submit-btn" onClick={submitReservation}>Make a reservation</button>
+                    <button className="reviewReseravation-submit-btn" onClick={closeModal}>Cancel</button>
                 </div>
             </div>
         </section>
