@@ -5,9 +5,9 @@ import { getSingleUser, updateCardInfo } from '../../../utils/user-API';
 
 import { Spinner } from 'react-bootstrap';
 
-const CardInfo = () => {
+const CardInfo = ( {user, setUser, setIsCardInfo} ) => {
 
-    const [ user, setUser ] = useState(null);
+    // const [ user, setUser ] = useState(null);
     const [ currentYear, setCurrentYear ] = useState(["2021", "2022"]);
     const [ isUpdatingCardInfo, setIsUpdatingCardInfo ] = useState(false);
 
@@ -21,19 +21,19 @@ const CardInfo = () => {
         setCurrentYear(years)
       }, [])
  
-    useEffect(() => {
-        (async () => {
-            try{
-                const userData = await Auth.getProfile();
-                const token = Auth.getToken();
-                const user = await getSingleUser(userData.data.username, token);
-                console.log(user);
-                setUser(user.data[0])      
-            }catch(err) {
-                console.log(err);
-            }
-        })();
-    }, [])
+    // useEffect(() => {
+    //     (async () => {
+    //         try{
+    //             const userData = await Auth.getProfile();
+    //             const token = Auth.getToken();
+    //             const user = await getSingleUser(userData.data.username, token);
+    //             console.log(user);
+    //             setUser(user.data[0])      
+    //         }catch(err) {
+    //             console.log(err);
+    //         }
+    //     })();
+    // }, [])
 
     const onChangeCreditCardForm = (event) => {
         let keyName = event.target.name;

@@ -1,13 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './reviewReservation.css';
 
-import { Carousel, Spinner } from 'react-bootstrap';
+import Auth from '../../utils/auth';
+import { getSingleUser, updateCardInfo } from '../../utils/user-API';
+
+import { Spinner } from 'react-bootstrap';
 
 import HotelReviewCard from './HotelReviewCard/HotelReviewCard';
 import CardInfo from './CardInfo/CardInfo';
 
 const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
+
+    const [ user, setUser ] = useState(null);
+    // const [ isCardInfo, setIsCardInfo ] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            try{
+                const userData = await Auth.getProfile();
+                const token = Auth.getToken();
+                const user = await getSingleUser(userData.data.username, token);
+                console.log(user);
+                setUser(user.data[0])      
+            }catch(err) {
+                console.log(err);
+            }
+        })();
+    }, [])
 
     useEffect(() => {
         document.getElementById("reviewReservation-backdrop").style.display = "block";
@@ -16,12 +36,35 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
         signFormModal.classList.add("show")
     }, [])
 
-    function closeModal() {
+    const closeModal = () => {
         document.getElementById("reviewReservation-backdrop").style.display = "none"
         document.getElementById("reviewReservation-modal").style.display = "none"
         document.getElementById("reviewReservation-modal").classList.remove("show")
 
         setIsReviewReservation(false);
+    }
+
+    // Check if There is  Card information
+    const checkCardInfo = () => {
+        if(user.cardInfo != null 
+            && user.cardInfo.cardType.length > 0
+            && user.cardInfo.cardCvc.length > 0
+            && user.cardInfo.cardNumber.length > 0
+            && user.cardInfo.expDate.length > 0
+            && user.cardInfo.nameOnCard.length > 0
+        ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    const submitReservation = () => {
+        if(!checkCardInfo()){
+            console.log("Make a reservation")
+        }else{
+            console.log("Have to Input card Information")
+        }
     }
 
     return(<>
@@ -37,7 +80,11 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
                     <HotelReviewCard allReviewState={allReviewState} />
                 </div>
                 <div className="review-card-info reviewReseravation-flex">
-                    <CardInfo />
+                    {user != null
+                    ? <CardInfo user={user} setUser={setUser} /> 
+                    : <div className="flex-center">
+                        <Spinner animation="border" variant="success" />
+                      </div>}
                 </div>
             </div>
         </section>
