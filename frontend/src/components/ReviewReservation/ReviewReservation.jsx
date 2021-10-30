@@ -5,6 +5,7 @@ import './reviewReservation.css';
 import { Carousel, Spinner } from 'react-bootstrap';
 
 import HotelReviewCard from './HotelReviewCard/HotelReviewCard';
+import CardInfo from './CardInfo/CardInfo';
 
 const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
 
@@ -34,6 +35,9 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
             <div className="reviewReservation-body">
                 <div className="review-hotel-info">
                     <HotelReviewCard allReviewState={allReviewState} />
+                </div>
+                <div className="review-card-info reviewReseravation-flex">
+                    <CardInfo />
                 </div>
             </div>
         </section>

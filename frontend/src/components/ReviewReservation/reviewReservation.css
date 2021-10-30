@@ -12,15 +12,16 @@
     color: white;
 }
 
-.review-hotel-card{
-    padding: 15px;
-    margin: 10px 10px;
+.reviewReseravation-flex{
+    display: flex;
+
+    padding: 25px;
+    margin: 25px 25px;
     background-color: rgba(0, 139, 139, 0.051);
 }
 
-.reviewReseravation-flex{
-    display: flex;
-    padding-left:50px;
+.flex-center{
+    justify-content: center;
 }
 
 .reviewReseravation-flex #reviewReseravation-left {
@@ -63,4 +64,36 @@
     width: 100%;
     padding: 7px;
     z-index: 1;
+}
+.reviewReseravation-cardInfo{
+    width: 350px;
+}
+.reviewReseravation-cardInfo > div {
+    margin-bottom: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.reviewReseravation-cardInfo > div > label {
+    flex: 0 0 150px;
+}
+
+.reviewReseravation-cardInfo > div > input {
+    padding: 3px 10px;
+}
+
+.reviewReseravation-cardInfo > div > button {
+    flex: 1 0 auto;
+    padding: 10px;
+    margin: 0 10px;
+    border: 1px solid #008B8B;
+    color: #008B8B;
+    background: none;
+    transition: all ease-in-out 0.2s 
+}
+
+.reviewReseravation-cardInfo > div > button:hover {
+    background-color: #008B8B;
+    color: white;
 }
