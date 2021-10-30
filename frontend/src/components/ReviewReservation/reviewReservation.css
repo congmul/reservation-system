@@ -14,10 +14,14 @@
 
 .reviewReseravation-flex{
     display: flex;
-
+    flex-wrap: wrap;
     padding: 25px;
     margin: 25px 25px;
     background-color: rgba(0, 139, 139, 0.051);
+}
+
+.review-card-info{
+    justify-content: space-between;
 }
 
 .flex-center{
@@ -65,6 +69,7 @@
     padding: 7px;
     z-index: 1;
 }
+
 .reviewReseravation-cardInfo{
     width: 350px;
 }

@@ -9,6 +9,7 @@ import { Spinner } from 'react-bootstrap';
 
 import HotelReviewCard from './HotelReviewCard/HotelReviewCard';
 import CardInfo from './CardInfo/CardInfo';
+import BillingAddress from './BillingAddress/BillingAddress';
 
 const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
 
@@ -60,10 +61,11 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
     }
 
     const submitReservation = () => {
-        if(!checkCardInfo()){
+        if(checkCardInfo()){
             console.log("Make a reservation")
         }else{
             console.log("Have to Input card Information")
+            alert("Please Add Credit Card Information")
         }
     }
 
@@ -81,10 +83,22 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
                 </div>
                 <div className="review-card-info reviewReseravation-flex">
                     {user != null
-                    ? <CardInfo user={user} setUser={setUser} /> 
+                    ? <>
+                        <div>
+                            <h4 className="text-center mb-5">Card Information</h4>
+                            <CardInfo user={user} setUser={setUser} /> 
+                        </div>
+                        <div>
+                            <h4 className="text-center mb-5">Billing Address</h4>
+                            <BillingAddress user={user} setUser={setUser} />
+                        </div>
+                    </>
                     : <div className="flex-center">
                         <Spinner animation="border" variant="success" />
                       </div>}
+                </div>
+                <div className="reviewReseravation-flex">
+                    <button className="reviewReseravation-submit-btn" onClick={submitReservation}>Make a reservation</button>
                 </div>
             </div>
         </section>

@@ -71,9 +71,20 @@ const updateUser = async (userInfo) => {
 const updateUserCardInfo = async (cardInfo, username) => {
     try {
         console.log("cardInfo in controller", cardInfo, username);
-        let user = await User.updateOne({'username': username}, {"cardInfo": cardInfo}, { new: true })
-        console.log(user);
+        let user = await User.updateOne({'_id': username}, {"cardInfo": cardInfo}, { new: true })
+        return user;
     }catch(error){
+        console.log(error)
+        throw error;
+    }
+}
+
+const updateBillingAddress = async (billingAddress, userId) => {
+    try{
+        console.log("cardInfo in controller", billingAddress, userId);
+        let user = await User.updateOne({'_id': userId}, {"billingAddress": billingAddress}, { new: true })
+        return user
+    }catch(error) {
         console.log(error)
         throw error;
     }
@@ -84,6 +95,7 @@ module.exports = {
     login,
     createUser,
     updateUser,
-    updateUserCardInfo
+    updateUserCardInfo,
+    updateBillingAddress
 
 }
