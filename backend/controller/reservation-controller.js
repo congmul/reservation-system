@@ -142,7 +142,7 @@ const createReservation = async (reservationData, userId, roomPrice=0) => {
         {$set : {"points": updatedPoints, "totalNights": updatedNights}, $push: { reservation: reservationInfo._id} },
         { new: true })
         console.log(userResponse);
-        return {message: "Succeed", userResponse}
+        return {message: "Succeed", updatedNights, updatedPoints}
 
     }catch(error) {
         throw error;

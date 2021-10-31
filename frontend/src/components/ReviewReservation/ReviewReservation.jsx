@@ -13,6 +13,10 @@ import BillingAddress from './BillingAddress/BillingAddress';
 
 import { createReservation } from '../../utils/reservation-API';
 
+import { useDispatch } from 'react-redux'
+import { setPoints, setTotalNights } from '../../redux/slices/user/userSlice';
+
+
 const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
 
     const [ user, setUser ] = useState(null);
@@ -21,6 +25,9 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
 
     const handleClose = () => setShowNoticeModal(false);
     const handleShow = () => setShowNoticeModal(true);
+
+    // To store user data on Redux
+    const dispatch = useDispatch();
 
     useEffect(() => {
         (async () => {
@@ -95,14 +102,18 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
                 console.log("reservationData", reservationData);
 
                 try {
-                    const response = await createReservation(reservationData, allReviewState.userId, allReviewState.roomInfo.price)
-                    console.log(response);
+                    const updated = await createReservation(reservationData, allReviewState.userId, allReviewState.roomInfo.price)
+                    console.log(updated);
                     handleShow();
                     setNoticeModal("Booking successful");
+                    console.log(updated)
+                    // Store two states in Redux state
+                    dispatch(setTotalNights(updated.data.updatedNights));
+                    dispatch(setPoints(updated.data.updatedPoints));
 
                     document.body.style.overflow = 'visible';
                     closeModal();
-                    window.location.assign('/account');
+                    // window.location.assign('/account');
                 }catch(error){
                     handleShow();
                     setNoticeModal("Error, Please try it later");

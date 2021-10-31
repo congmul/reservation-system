@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import SignForm from './SignForm/SignForm';
 import Auth from '../utils/auth';
 
+import { getSingleUser } from '../utils/user-API';
+
 import { useSelector, useDispatch } from 'react-redux'
 import { setFirstName, setUsername, setPoints, setTotalNights } from '../redux/slices/user/userSlice';
 
@@ -29,12 +31,14 @@ const Nav = () => {
                  const user = await Auth.getProfile();
                  console.log(user);
                 //  setUser(user.data);
+                const userData = await getSingleUser(user._id, Auth.getToken())
+                console.log(userData.data[0]);
 
                 // To store user data in Redux state
-                dispatch(setFirstName(user.data.firstName));
-                dispatch(setUsername(user.data.username));
-                dispatch(setPoints(user.data.points));
-                dispatch(setTotalNights(user.data.totalNights));
+                dispatch(setFirstName(userData.data[0].firstName));
+                dispatch(setUsername(userData.data[0].username));
+                dispatch(setPoints(userData.data[0].points));
+                dispatch(setTotalNights(userData.data[0].totalNights));
             }
         })();
     }, [dispatch])
