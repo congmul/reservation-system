@@ -5,15 +5,22 @@ import './reviewReservation.css';
 import Auth from '../../utils/auth';
 import { getSingleUser } from '../../utils/user-API';
 
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Modal, Button } from 'react-bootstrap';
 
 import HotelReviewCard from './HotelReviewCard/HotelReviewCard';
 import CardInfo from './CardInfo/CardInfo';
 import BillingAddress from './BillingAddress/BillingAddress';
 
+import { createReservation } from '../../utils/reservation-API';
+
 const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
 
     const [ user, setUser ] = useState(null);
+    const [ noticeModal, setNoticeModal ] = useState(null);
+    const [ showNoticeModal, setShowNoticeModal] = useState(false);
+
+    const handleClose = () => setShowNoticeModal(false);
+    const handleShow = () => setShowNoticeModal(true);
 
     useEffect(() => {
         (async () => {
@@ -30,6 +37,7 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
     }, [])
 
     useEffect(() => {
+        document.body.style.overflow = 'hidden';
         document.getElementById("reviewReservation-backdrop").style.display = "block";
         const signFormModal = document.getElementById("reviewReservation-modal");
         signFormModal.style.display = "block"
@@ -37,6 +45,7 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
     }, [])
 
     const closeModal = () => {
+        document.body.style.overflow = 'visible';
         document.getElementById("reviewReservation-backdrop").style.display = "none"
         document.getElementById("reviewReservation-modal").style.display = "none"
         document.getElementById("reviewReservation-modal").classList.remove("show")
@@ -75,19 +84,37 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
         }
     }
 
-    const submitReservation = () => {
+    const submitReservation = async () => {
         if(checkCardInfo()){
             if(checkbillingAddress()){
-                // TODO: Make a reservation
+                // Make a reservation
                 console.log("Make a reservation")
-                
-                closeModal();
-                window.location.assign('/account');
+                console.log("allReviewState", allReviewState);
+                console.log("cardInfo", user.cardInfo)
+                const reservationData = {...allReviewState.reservationData, "cardInfo": user.cardInfo}
+                console.log("reservationData", reservationData);
+
+                try {
+                    const response = await createReservation(reservationData, allReviewState.userId, allReviewState.roomInfo.price)
+                    console.log(response);
+                    handleShow();
+                    setNoticeModal("Booking successful");
+
+                    document.body.style.overflow = 'visible';
+                    closeModal();
+                    window.location.assign('/account');
+                }catch(error){
+                    handleShow();
+                    setNoticeModal("Error, Please try it later");
+                    console.log(error);
+                }
             }else{
-                alert("Please Add Billing Address Information")
+                handleShow();
+                setNoticeModal("Please Add Billing Address Information")
             }
         }else{
-            alert("Please Add Credit Card Information")
+            handleShow();
+            setNoticeModal("Please Add Credit Card Information")
         }
     }
 
@@ -126,6 +153,19 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
             </div>
         </section>
         <div className="modal-backdrop fade show" id="reviewReservation-backdrop" style={{"display":"none"}}></div>
+        <Modal show={showNoticeModal} onHide={handleClose}>
+            <Modal.Header closeButton>
+              {/* <Modal.Title>Modal title</Modal.Title> */}
+            </Modal.Header>
+
+            <Modal.Body>
+              <p>{noticeModal}.</p>
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>Close</Button>
+            </Modal.Footer>
+        </Modal>
     </div> 
     </>)
 }

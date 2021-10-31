@@ -6,6 +6,7 @@ const reservationSchema = new Schema({
     roomId: {type: Schema.Types.ObjectId, ref: 'RoomType'},
     dateStart: { type: Date },
     dateEnd: { type: Date },
+    cardInfo: { cardType: String, cardNumber: String, nameOnCard: String, expDate: String, cardCvc: String },
     isCancel: { type: Boolean, default: false }
 })
 
