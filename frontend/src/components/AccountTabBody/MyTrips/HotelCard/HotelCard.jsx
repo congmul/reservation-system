@@ -34,7 +34,7 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
                         let response = await getReservationById(reservation[i]._id)
                         allReservations.push(response.data[0]);  
                     }
-                    // console.log(allReservations);
+                    console.log(allReservations);
                     setAllReservationState([...allReservations]);
                 }else{
                     setAllReservationState(null);
@@ -49,7 +49,7 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
         // console.log(roomTypeArr);
         // console.log(roomId)
         const selectedRoom = roomTypeArr.filter(roomType => {return roomId === roomType._id})
-        // console.log(selectedRoom)
+        // console.log(selectedRoom[0])
         return selectedRoom[0];
     }
 

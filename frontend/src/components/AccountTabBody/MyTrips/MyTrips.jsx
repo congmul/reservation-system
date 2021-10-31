@@ -99,18 +99,18 @@ const MyTrips = () => {
 
     return(<>{user != null ? <>
         <div id="profile-tab-body-myTrips-header">
-            <div className="profile-tab-body-myTrips-menu" onClick={onClickTripsMenu}>
-                <div className="profile-tab-body-myTrips-menu-div profile-tab-body-myTrips-clicked">
+            <div className="profile-tab-body-myTrips-menu" >
+                <div className="profile-tab-body-myTrips-menu-div profile-tab-body-myTrips-clicked" onClick={onClickTripsMenu}>
                     Upcoming
                 </div>
             </div>
-            <div className="profile-tab-body-myTrips-menu" onClick={onClickTripsMenu}>
-                <div className="profile-tab-body-myTrips-menu-div">
+            <div className="profile-tab-body-myTrips-menu">
+                <div className="profile-tab-body-myTrips-menu-div" onClick={onClickTripsMenu}>
                     Canceled
                 </div>
             </div>
-            <div className="profile-tab-body-myTrips-menu" onClick={onClickTripsMenu}>
-                <div className="profile-tab-body-myTrips-menu-div">
+            <div className="profile-tab-body-myTrips-menu">
+                <div className="profile-tab-body-myTrips-menu-div" onClick={onClickTripsMenu}>
                     Past Trips
                 </div>
             </div>
