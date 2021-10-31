@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { Carousel, Spinner } from 'react-bootstrap';
+import { Carousel, Spinner, Modal, Button } from 'react-bootstrap';
 
 import { getReservationById, cancelReservationById } from '../../../../utils/reservation-API';
 
@@ -12,6 +12,12 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
     // console.log(reservation)
 
     const [ allReservationState, setAllReservationState ] = useState([]);
+    const [ reservationIdState, setReservationIdState] = useState("");
+
+    const [ showNoticeModal, setShowNoticeModal] = useState(false);
+
+    const handleClose = () => setShowNoticeModal(false);
+    const handleShow = () => setShowNoticeModal(true);
 
     // To store user data on Redux
     const dispatch = useDispatch();
@@ -49,11 +55,12 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
 
     const onClickcancelUpcomingReser = async (event) => {
         try {
-            const reservationId = event.target.dataset.id;
-            const userId = event.target.dataset.userId;
-
+            handleClose();
+            // const reservationId = event.target.dataset.id;
+            // const userId = event.target.dataset.userId;
+            console.log(userId, reservationIdState)
             // Update a reservation by id to cancel.
-            const updated = await cancelReservationById(reservationId, userId);
+            const updated = await cancelReservationById(reservationIdState, userId);
 
             // Store two states in Redux state
             dispatch(setTotalNights(updated.data.updatedNights));
@@ -65,10 +72,19 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
         }
     }
 
+    const onClickcancelModal = async (event) => {
+
+        const reservationId = event.target.dataset.id;
+        const userId = event.target.dataset.userId;
+        console.log(userId, reservationId)
+        setReservationIdState(event.target.dataset.id)
+        handleShow();
+    }
+
     return(<>
     { allReservationState != null ?
     allReservationState.length > 0 
-    ? allReservationState.map(singleReservation => {
+    ? <>{allReservationState.map(singleReservation => {
         return(
             <div className="profile-tab-body-flex hotel-card" key={singleReservation._id}>
                 <div id="profile-tab-body-myTrips-left">
@@ -93,7 +109,7 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
                         <div className="profile-tab-body-myTrips-left-sec-value" style={style}>{singleReservation.dateEnd.substring(0, 10)}</div>
                     </div>
                     <div className="profile-tab-body-myTrips-left-sec">
-                        {upcoming ? <button data-id={singleReservation._id} data-user-id={userId} onClick={onClickcancelUpcomingReser}>Cancel</button> : <></>}
+                        {upcoming ? <button data-id={singleReservation._id} data-user-id={userId} onClick={onClickcancelModal}>Cancel</button> : <></>}
                     </div>
                 </div>
         <div id="profile-tab-body-myTrips-right">
@@ -118,7 +134,21 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
             </div>
         </div>
     </div>
-    )})
+    )})}
+
+    <Modal show={showNoticeModal} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          {/* <Modal.Title>Modal title</Modal.Title> */}
+        </Modal.Header>
+        <Modal.Body>
+          <p>Do you want to cancel the reservation?</p>
+        </Modal.Body>
+        <Modal.Footer>
+        <Button variant="outline-success" onClick={onClickcancelUpcomingReser} >Okay</Button>
+          <Button variant="outline-success" onClick={handleClose}>Close</Button>
+        </Modal.Footer>
+    </Modal>
+    </>
             
     :   <div className="hotel-card" style={{"textAlign":"center"}}>
             <Spinner animation="border" variant="success" />
