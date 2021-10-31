@@ -34,7 +34,9 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
                         let response = await getReservationById(reservation[i]._id)
                         allReservations.push(response.data[0]);  
                     }
-                    console.log(allReservations);
+                    
+                    // Ascending Sorting 
+                    allReservations.sort((a, b) => {return new Date(a.dateStart) - new Date(b.dateStart)});
                     setAllReservationState([...allReservations]);
                 }else{
                     setAllReservationState(null);
