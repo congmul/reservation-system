@@ -21,7 +21,7 @@ const Reservation = ({match}) => {
         :
         <div>
             <HotelList hotels={hotel} showAll={true}/>
-            <ReserveForm rooms={hotel[0].roomType} hotelid={hotel[0]._id}/>
+            <ReserveForm hotelInfo={hotel[0]} rooms={hotel[0].roomType} hotelid={hotel[0]._id}/>
         </div>
     )
 }
