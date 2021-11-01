@@ -74,6 +74,12 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
         }
     }
 
+    const onClickUpdateModal = async (event) => {
+        const reservationId = event.target.dataset.id;
+        const userId = event.target.dataset.userId;
+        console.log(userId, reservationId)
+    }
+
     const onClickcancelModal = async (event) => {
 
         const reservationId = event.target.dataset.id;
@@ -111,6 +117,7 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
                         <div className="profile-tab-body-myTrips-left-sec-value" style={style}>{singleReservation.dateEnd.substring(0, 10)}</div>
                     </div>
                     <div className="profile-tab-body-myTrips-left-sec">
+                        {upcoming ? <button data-id={singleReservation._id} data-user-id={userId} onClick={onClickUpdateModal}>Update</button> : <></>}
                         {upcoming ? <button data-id={singleReservation._id} data-user-id={userId} onClick={onClickcancelModal}>Cancel</button> : <></>}
                     </div>
                 </div>

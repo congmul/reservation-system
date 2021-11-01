@@ -58,6 +58,8 @@
 }
 
 .profile-tab-body-flex #profile-tab-body-myTrips-left > .profile-tab-body-myTrips-left-sec > button{
+    flex: 0 0 125px;
+    margin: 0 10px 10px 0;
     width: 100%;
     max-width: 250px;
     background: none;
