@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 
 import { Carousel, Spinner, Modal, Button } from 'react-bootstrap';
 
-import { getReservationById, cancelReservationById } from '../../../../utils/reservation-API';
+import { getAllReservation, getReservationById, cancelReservationById } from '../../../../utils/reservation-API';
 
 import { useDispatch } from 'react-redux'
 import { setPoints, setTotalNights } from '../../../../redux/slices/user/userSlice';
 
+import './style.css';
 
 const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) => { 
     // console.log(reservation)
@@ -14,8 +15,18 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
     const [ allReservationState, setAllReservationState ] = useState([]);
     const [ reservationIdState, setReservationIdState] = useState("");
 
+    const [ thisRoomType, setThisRoomType] = useState("");
+    const [ thisReservationState, setThisReservationState] = useState("");
+
+    const [ updateModal, setUpdateModal] = useState(false);
     const [ showNoticeModal, setShowNoticeModal] = useState(false);
 
+
+    const handleCloseUpdateModal = () => {
+        setUpdateModal(false)
+        setThisReservationState("")
+    };
+    const handleShowUpdateModal = () => setUpdateModal(true);    
     const handleClose = () => setShowNoticeModal(false);
     const handleShow = () => setShowNoticeModal(true);
 
@@ -74,10 +85,52 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
         }
     }
 
+    const onClickUpdateUpcomingReser = async () => {
+
+    }
+
+    const onClickUpdateDataChecking = () => {
+        console.log("Validation")
+    }
+
     const onClickUpdateModal = async (event) => {
+        handleShowUpdateModal();
         const reservationId = event.target.dataset.id;
+        const roomId = event.target.dataset.roomId;
         const userId = event.target.dataset.userId;
         console.log(userId, reservationId)
+
+        try {
+            // Adding an Alias for destructured variable
+            const { data: allReservation } = await getAllReservation();
+            console.log(allReservation);
+
+            // Get all upcoming reservation of the room excepting for current target reservation. 
+            const allUpcomingByThisRoom = allReservation.filter(reservation => {
+                if(new Date(reservation.dateStart)  > new Date() 
+                && reservation.roomId === roomId 
+                && reservation.isCancel !== true
+                && reservation._id !== reservationId){
+                    return reservation;
+                }
+            })
+
+            const thisReservation = allReservation.filter(reservation => reservation._id === reservationId);
+            const thisRoomType = thisReservation[0].hotel.roomType.filter(room => room._id === roomId)
+            console.log("allUpcomingByThisRoom", allUpcomingByThisRoom);
+            console.log("thisRoomType", thisRoomType[0])
+            console.log("thisReservation[0]", thisReservation[0]);
+            setThisRoomType(thisRoomType[0]);
+            setThisReservationState(thisReservation[0]);
+
+            // Put default date to Input(type=date) in Update Modal
+            document.getElementById('update-checkin').value = thisReservation[0].dateStart.substring(0, 10);
+            document.getElementById('update-checkout').value = thisReservation[0].dateEnd.substring(0, 10);
+            document.getElementById('update-numRooms').value = thisReservation[0].roomQuantity;
+
+        }catch(error) {
+            console.log(error);
+        }
     }
 
     const onClickcancelModal = async (event) => {
@@ -117,7 +170,7 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
                         <div className="profile-tab-body-myTrips-left-sec-value" style={style}>{singleReservation.dateEnd.substring(0, 10)}</div>
                     </div>
                     <div className="profile-tab-body-myTrips-left-sec">
-                        {upcoming ? <button data-id={singleReservation._id} data-user-id={userId} onClick={onClickUpdateModal}>Update</button> : <></>}
+                        {upcoming ? <button data-id={singleReservation._id} data-user-id={userId} data-room-id={singleReservation.roomId} onClick={onClickUpdateModal}>Update</button> : <></>}
                         {upcoming ? <button data-id={singleReservation._id} data-user-id={userId} onClick={onClickcancelModal}>Cancel</button> : <></>}
                     </div>
                 </div>
@@ -145,9 +198,49 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
     </div>
     )})}
 
+    <Modal show={updateModal} onHide={handleCloseUpdateModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit your reservation.</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {thisReservationState !== "" ?
+           <div className="update-reservation-modal">
+                   <div>
+                        <label>Hotel name: </label>
+                        <div className="value">{thisReservationState.hotel.name}</div>
+                   </div>
+                   <div>
+                        <label>Room type: </label>
+                        <div className="value">{thisRoomType.name}</div>
+                   </div>
+                   <div>
+                        <label>Price: </label>
+                        <div className="value">$ {thisRoomType.price}</div>
+                   </div>
+                    <div>
+                        <label>Rooms: </label>
+                        <input className="update-input-rooms" id="update-numRooms" type="number" />
+                    </div>
+                    <div>
+                        <label>Start: </label>
+                        <input className="update-input-date" type="date" id="update-checkin" name="update-checkin" />
+                    </div>
+                    <div>
+                        <label>End: </label>
+                        <input className="update-input-date" type="date" id="update-checkout" name="update-checkout" />
+                    </div>
+            </div>
+           : <div style={{"textAlign":"center"}}><Spinner animation="border" variant="success" /></div> }
+        </Modal.Body>
+        <Modal.Footer>
+        <Button variant="outline-success" onClick={onClickUpdateDataChecking} >Check</Button>
+            <Button variant="outline-success" onClick={onClickUpdateUpcomingReser} >Update</Button>
+            <Button variant="outline-success" onClick={handleCloseUpdateModal}>Close</Button>
+        </Modal.Footer>
+    </Modal>
+
     <Modal show={showNoticeModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          {/* <Modal.Title>Modal title</Modal.Title> */}
         </Modal.Header>
         <Modal.Body>
           <p>Do you want to cancel the reservation?</p>
