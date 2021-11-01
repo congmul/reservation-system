@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
         console.log(response);
         res.json(response);
     }catch(error){
-        throw error;
+        res.status(500).json(error);
     }
 })
 
@@ -21,7 +21,7 @@ router.get('/:id', async (req, res) => {
         console.log(response);
         res.json(response);
     }catch(error){
-        throw error;
+        res.status(500).json(error);
     }
 })
 
@@ -33,7 +33,7 @@ router.put('/cancel/:id/:userId', async (req, res) => {
         console.log(response);
         res.json(response);
     }catch(error){
-        throw error;
+        res.status(500).json(error);
     }
 })
 
@@ -45,7 +45,8 @@ router.post('/:userId/:roomPrice', async (req, res) => {
         // console.log(response);
         res.json(response);
     }catch(error){
-        throw error;
+        // console.log(error);
+        res.status(500).json(error);
     }
 })
 

@@ -113,11 +113,10 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
 
                     document.body.style.overflow = 'visible';
                     closeModal();
-                    // window.location.assign('/account');
+                    window.location.assign('/account');
                 }catch(error){
                     handleShow();
-                    setNoticeModal("Error, Please try it later");
-                    console.log(error);
+                    setNoticeModal(error.response.data.message);
                 }
             }else{
                 handleShow();

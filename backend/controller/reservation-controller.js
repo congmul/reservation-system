@@ -104,13 +104,13 @@ const createReservation = async (reservationData, userId, roomPrice=0) => {
             if(inputStartDate <= upComingUserReservation[i].dateStart && upComingUserReservation[i].dateStart <= inputEndDate){
                //   |----|   or  |----|: exit reservation
                // |--------| or |--| : new reservation
-               return {message: "You have a reservation for the date.", data: upComingUserReservation[i]}
+               throw {message: "You have a reservation for the date.", data: upComingUserReservation[i]}
             }
             // Case 2. When InputStartDate is greater then or equal to dateStart
             else if(upComingUserReservation[i].dateStart <= inputStartDate && inputStartDate <= upComingUserReservation[i].dateEnd){
                // |------|   or  |------|: exit reservation
                //   |------| or   |---| : new reservation
-               return {message: "You have a reservation for the date.", data: upComingUserReservation[i]}           
+               throw {message: "You have a reservation for the date.", data: upComingUserReservation[i]}           
             }
         }
         
