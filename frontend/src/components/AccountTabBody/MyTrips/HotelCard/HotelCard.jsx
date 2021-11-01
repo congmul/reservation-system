@@ -91,6 +91,14 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
 
     const onClickUpdateDataChecking = () => {
         console.log("Validation")
+        let inputReservationForUpdateEl = document.getElementsByClassName('update-modal-value');
+        let inputReservationForUpdate = {}
+        for( let i = 0; i < inputReservationForUpdateEl.length; i++){
+            inputReservationForUpdate[inputReservationForUpdateEl[i].name] = inputReservationForUpdateEl[i].value
+            // console.log(inputReservationForUpdateEl[i].name)
+            // console.log(inputReservationForUpdateEl[i].value)
+        }
+        console.log("inputReservationForUpdate", inputReservationForUpdate)
     }
 
     const onClickUpdateModal = async (event) => {
@@ -219,15 +227,15 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
                    </div>
                     <div>
                         <label>Rooms: </label>
-                        <input className="update-input-rooms" id="update-numRooms" type="number" />
+                        <input className="update-input-rooms update-modal-value" id="update-numRooms" name="numRooms" type="number" />
                     </div>
                     <div>
                         <label>Start: </label>
-                        <input className="update-input-date" type="date" id="update-checkin" name="update-checkin" />
+                        <input className="update-input-date update-modal-value" type="date" id="update-checkin" name="update-checkin" />
                     </div>
                     <div>
                         <label>End: </label>
-                        <input className="update-input-date" type="date" id="update-checkout" name="update-checkout" />
+                        <input className="update-input-date update-modal-value" type="date" id="update-checkout" name="update-checkout" />
                     </div>
             </div>
            : <div style={{"textAlign":"center"}}><Spinner animation="border" variant="success" /></div> }
