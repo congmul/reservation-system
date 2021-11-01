@@ -1,4 +1,4 @@
-const { Reservation, User } = require('../models');
+const { Reservation, User, Hotel } = require('../models');
 const mongoose = require('mongoose');
 
 const getReservation = async () => {
@@ -13,6 +13,21 @@ const getReservation = async () => {
 const getReservationById = async (id) => {
     try {
         const response = await Reservation.find({"_id": id}).populate('hotel');
+        return response;
+    }catch(error) {
+        return {message: "Cannot find the reservation", error};
+    }
+}
+const getReservationsByDay = async (iso, roomId) => {
+    //finds noncancelled reservations that overlap a specified day for a specified room
+    try {
+        const isoDay = iso.slice(-2);
+        const isoMonth = iso.slice(5, 7);
+        const isoYear = iso.slice(0, 4);
+        const toDate = new Date(isoYear, isoMonth-1, isoDay); //breaking up iso date is necessary to avoid timezone issues
+        const response = await Reservation.find({dateStart: {$lte: toDate}, dateEnd: {$gt: toDate},
+             roomId: roomId, isCancel: false}).populate('hotel');
+       
         return response;
     }catch(error) {
         return {message: "Cannot find the reservation", error};
@@ -152,6 +167,7 @@ const createReservation = async (reservationData, userId, roomPrice=0) => {
 module.exports = {
     getReservation,
     getReservationById,
+    getReservationsByDay,
     cancelReservationById,
     createReservation
 
