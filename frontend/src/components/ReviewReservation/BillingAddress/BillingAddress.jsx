@@ -1,7 +1,7 @@
 import { updateBillingAddress } from '../../../utils/user-API';
 
 
-const BillingAddress = ( {user, setUser} ) => {
+const BillingAddress = ( {user, setUser, setUpdateInfo} ) => {
 
 
     const onChangereservationBillingAddressForm = (event) => {
@@ -45,7 +45,7 @@ const BillingAddress = ( {user, setUser} ) => {
       try {
          let response = await updateBillingAddress(billingAddress, user._id);
          console.log(response);
-
+         setUpdateInfo("Update billing Address");
          onClickreservationBillingAddressCancelBtn();
       }catch(error){
          console.log(error);
