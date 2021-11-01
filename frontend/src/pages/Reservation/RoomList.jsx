@@ -13,7 +13,7 @@ const RoomList = ({rooms, nights, numRooms, hotelInfo, reservationDate, hotelid}
     useEffect(() => {
         (async () => {
             if(!Auth.loggedIn()){
-                window.location.assign('/'); 
+                // window.location.assign('/'); 
             }else{
                 const userData = await Auth.getProfile();
                 console.log(userData.data);
