@@ -100,7 +100,7 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
                 console.log("Make a reservation")
                 console.log("allReviewState", allReviewState);
                 console.log("cardInfo", user.cardInfo)
-                const reservationData = {...allReviewState.reservationData, "cardInfo": user.cardInfo}
+                const reservationData = {...allReviewState.reservationData, "cardInfo": user.cardInfo, "roomQuantity": allReviewState.numRooms}
                 console.log("reservationData", reservationData);
 
                 try {

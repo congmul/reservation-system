@@ -96,7 +96,7 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
                     </div>
                     <div className="profile-tab-body-myTrips-left-sec">
                         <div className="profile-tab-body-myTrips-left-sec-label">Room type:</div>
-                        <div className="profile-tab-body-myTrips-left-sec-value">1 {selectedHotelRoom(singleReservation.roomId, singleReservation.hotel.roomType).name}</div>
+                        <div className="profile-tab-body-myTrips-left-sec-value">{singleReservation.roomQuantity} {selectedHotelRoom(singleReservation.roomId, singleReservation.hotel.roomType).name}</div>
                     </div>
                     <div className="profile-tab-body-myTrips-left-sec">
                         <div className="profile-tab-body-myTrips-left-sec-label">Price:</div>
