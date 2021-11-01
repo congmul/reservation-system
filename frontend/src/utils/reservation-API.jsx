@@ -7,6 +7,10 @@ const api = axios.create({
     baseURL
 })
 
+export const getAllReservation = async (id) => {
+    return await api.get(`/reservation/`);
+};
+
 export const getReservationById = async (id) => {
     return await api.get(`/reservation/${id}`);
 };
