@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getReservation, createReservation, getReservationById, cancelReservationById } = require('../../controller/reservation-controller');
+const { getReservation, createReservation, getReservationById, updateReservationById, cancelReservationById } = require('../../controller/reservation-controller');
 
 // PATH:  /api/reservation/
 router.get('/', async (req, res) => {
@@ -24,6 +24,21 @@ router.get('/:id', async (req, res) => {
         res.status(500).json(error);
     }
 })
+
+router.put('/update/:reservationId/:userId/:roomPrice', async (req, res) => {
+    try {
+        console.log(req.params.reservationId);
+        console.log(req.params.userId);
+        console.log(req.params.roomPrice);
+        console.log(req.body);
+        const response = await updateReservationById(req.body, req.params.reservationId, req.params.userId, req.params.roomPrice);
+        console.log(response);
+        res.json(response);
+    }catch(error){
+        res.status(500).json(error);
+    }
+})
+
 
 router.put('/cancel/:id/:userId', async (req, res) => {
     try {

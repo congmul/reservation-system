@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Carousel, Spinner, Modal, Button } from 'react-bootstrap';
 
-import { getAllReservation, getReservationById, cancelReservationById } from '../../../../utils/reservation-API';
+import { getAllReservation, getReservationById, updateReservationById, cancelReservationById } from '../../../../utils/reservation-API';
 
 import { useDispatch } from 'react-redux'
 import { setPoints, setTotalNights } from '../../../../redux/slices/user/userSlice';
@@ -93,9 +93,25 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
         }
     }
 
-    const onClickUpdateUpcomingReser = async () => {
+    const onClickUpdateUpcomingReser = async (event) => {
         // call API to update reservation.
+        let reservationId = event.target.dataset.reservationId;
+        console.log(reservationId);
         console.log(inputReservationState);
+        try {
+            const response = await updateReservationById(reservationId, userId, thisRoomType.price, inputReservationState);
+            console.log(response);
+
+
+            // Store two states in Redux state
+            dispatch(setTotalNights(response.data.updatedNights));
+            dispatch(setPoints(response.data.updatedPoints));
+
+            handleCloseUpdateModal();
+            setIsUpdate(response);
+        }catch(error){
+            console.log(error.response.data);
+        }
     }
 
     const onClickUpdateDataChecking = () => {
@@ -162,7 +178,12 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
                     notAvailableDate.push(thisDate);
                     isCheckAvailableRoom = false;
                 }
-            
+            else if(inputNumRooms > thisRoomType.quantity){
+                console.log("Room is not available on the date.")
+                    
+                notAvailableDate.push(thisDate);
+                isCheckAvailableRoom = false;
+            }
             // Set Next Day
             inputDateStart.setDate(inputDateStart.getDate() + 1);
         }
@@ -176,6 +197,11 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
                 "dateEnd": inputReservationForUpdate["update-checkout"],
                 "roomQuantity": parseInt(inputReservationForUpdate["numRooms"])
             })
+            // Disabled 
+            let modalEl = document.getElementsByClassName('update-modal-value');
+            for(let i = 0; i < modalEl.length; i++){
+                modalEl[i].disabled = true;
+            }
         }else{
             // Display warning.
             console.log("Not available date", notAvailableDate)
@@ -334,7 +360,7 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
         </Modal.Body>
         <Modal.Footer>
             {!isCheckRoomAvaialble ? <Button variant="outline-success" onClick={onClickUpdateDataChecking} >Check</Button> : <></>}
-            {isCheckRoomAvaialble ? <Button variant="outline-success" onClick={onClickUpdateUpcomingReser} >Update</Button> : <></>}
+            {isCheckRoomAvaialble ? <Button variant="outline-success" data-reservation-id={thisReservationState._id} onClick={onClickUpdateUpcomingReser} >Update</Button> : <></>}
             <Button variant="outline-success" onClick={handleCloseUpdateModal}>Close</Button>
         </Modal.Footer>
     </Modal>
