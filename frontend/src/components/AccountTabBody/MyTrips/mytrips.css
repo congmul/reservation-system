@@ -94,3 +94,13 @@
     padding: 7px;
     z-index: 1;
 }
+
+.checking-warning{
+    display: block!important;
+    padding: 10px;
+    max-width: 270px;
+}
+
+.checking-warning > ul {
+    margin: 0px;
+}
