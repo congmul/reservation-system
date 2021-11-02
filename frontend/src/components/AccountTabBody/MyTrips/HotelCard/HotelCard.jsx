@@ -14,9 +14,15 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
 
     const [ allReservationState, setAllReservationState ] = useState([]);
     const [ reservationIdState, setReservationIdState] = useState("");
+    const [ inputReservationState, setinputReservationState ] = useState("");
 
     const [ thisRoomType, setThisRoomType] = useState("");
     const [ thisReservationState, setThisReservationState] = useState("");
+    const [ allUpcomingByThisRoomState, setAllUpcomingByThisRoomState] = useState("");
+
+    const [ isCheckRoomAvaialble, setIsCheckRoomAvaialble ] = useState(false);
+    const [ notAvailableDateState, setNotAvailableDateState ] = useState([]);
+    const [ showWarningNotice, setShowWarningNotice ] = useState(false);
 
     const [ updateModal, setUpdateModal] = useState(false);
     const [ showNoticeModal, setShowNoticeModal] = useState(false);
@@ -25,6 +31,8 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
     const handleCloseUpdateModal = () => {
         setUpdateModal(false)
         setThisReservationState("")
+        setIsCheckRoomAvaialble(false);
+        setShowWarningNotice(false);
     };
     const handleShowUpdateModal = () => setUpdateModal(true);    
     const handleClose = () => setShowNoticeModal(false);
@@ -86,11 +94,15 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
     }
 
     const onClickUpdateUpcomingReser = async () => {
-
+        // call API to update reservation.
+        console.log(inputReservationState);
     }
 
     const onClickUpdateDataChecking = () => {
         console.log("Validation")
+
+        setShowWarningNotice(false);
+
         let inputReservationForUpdateEl = document.getElementsByClassName('update-modal-value');
         let inputReservationForUpdate = {}
         for( let i = 0; i < inputReservationForUpdateEl.length; i++){
@@ -98,7 +110,79 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
             // console.log(inputReservationForUpdateEl[i].name)
             // console.log(inputReservationForUpdateEl[i].value)
         }
-        console.log("inputReservationForUpdate", inputReservationForUpdate)
+        console.log("inputReservationForUpdate", inputReservationForUpdate);
+        console.log(thisRoomType)
+        console.log(thisReservationState)
+        console.log(allUpcomingByThisRoomState)
+
+        // Validation checking if the room is available during user input date.
+        // 1. Create HashTable to organize the number of rooms on a specific date.
+        let dateHashTable = {};
+        for(let i = 0; i < allUpcomingByThisRoomState.length; i++){
+            let dateStart = new Date(allUpcomingByThisRoomState[i].dateStart)
+            let numRooms = allUpcomingByThisRoomState[i].roomQuantity;
+
+            // Calculate difference days between Start and End.
+            let dateEnd = new Date(allUpcomingByThisRoomState[i].dateEnd);
+            let diffTime = Math.abs(dateEnd - dateStart);
+            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            console.log("diffDays", diffDays);
+
+            for(let i = 0; i < diffDays; i++){
+                let thisDate = `${dateStart.getFullYear()}-${dateStart.getMonth()+1}-${dateStart.getDate()+1}`;
+                if(dateHashTable[thisDate] != null) {
+                    dateHashTable[thisDate] += numRooms;
+                }else{
+                    dateHashTable[thisDate] = numRooms;
+                }
+
+                // Set Next Day
+                dateStart.setDate(dateStart.getDate() + 1);
+            }
+        }
+            console.log(dateHashTable)
+
+        // Calculate difference days between Start and End.
+        let inputNumRooms = parseInt(inputReservationForUpdate.numRooms);
+        let inputDateStart = new Date(inputReservationForUpdate["update-checkin"])
+        let inputDateEnd = new Date(inputReservationForUpdate["update-checkout"]);
+        let diffTime = Math.abs(inputDateEnd - inputDateStart);
+        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        console.log("diffDays", diffDays);
+
+        let isCheckAvailableRoom = true;
+        let notAvailableDate = [];
+        for(let i = 0; i < diffDays; i++){ 
+            let thisDate = `${inputDateStart.getFullYear()}-${inputDateStart.getMonth()+1}-${inputDateStart.getDate()+1}`;
+            console.log(thisDate);
+            if(dateHashTable[thisDate] != null 
+                && dateHashTable[thisDate] + inputNumRooms > thisRoomType.quantity){
+                    console.log("Room is not available on the date.")
+                    
+                    notAvailableDate.push(thisDate);
+                    isCheckAvailableRoom = false;
+                }
+            
+            // Set Next Day
+            inputDateStart.setDate(inputDateStart.getDate() + 1);
+        }
+
+
+        // Display Update Button.
+        if(isCheckAvailableRoom) {
+            setIsCheckRoomAvaialble(true);
+            setinputReservationState({
+                "dateStart": inputReservationForUpdate["update-checkin"],
+                "dateEnd": inputReservationForUpdate["update-checkout"],
+                "roomQuantity": parseInt(inputReservationForUpdate["numRooms"])
+            })
+        }else{
+            // Display warning.
+            console.log("Not available date", notAvailableDate)
+            setShowWarningNotice(true)
+            setNotAvailableDateState(notAvailableDate);
+        }
+
     }
 
     const onClickUpdateModal = async (event) => {
@@ -128,6 +212,7 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
             console.log("allUpcomingByThisRoom", allUpcomingByThisRoom);
             console.log("thisRoomType", thisRoomType[0])
             console.log("thisReservation[0]", thisReservation[0]);
+            setAllUpcomingByThisRoomState(allUpcomingByThisRoom)
             setThisRoomType(thisRoomType[0]);
             setThisReservationState(thisReservation[0]);
 
@@ -237,12 +322,19 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
                         <label>End: </label>
                         <input className="update-input-date update-modal-value" type="date" id="update-checkout" name="update-checkout" />
                     </div>
+
+                    {showWarningNotice ? 
+                        <div className="checking-warning alert-danger">
+                            <div>Not available during the date</div>
+                            <ul>{notAvailableDateState.map(date => <li>{date}</li>)}</ul>
+                        </div>
+                        : <></>}
             </div>
            : <div style={{"textAlign":"center"}}><Spinner animation="border" variant="success" /></div> }
         </Modal.Body>
         <Modal.Footer>
-        <Button variant="outline-success" onClick={onClickUpdateDataChecking} >Check</Button>
-            <Button variant="outline-success" onClick={onClickUpdateUpcomingReser} >Update</Button>
+            {!isCheckRoomAvaialble ? <Button variant="outline-success" onClick={onClickUpdateDataChecking} >Check</Button> : <></>}
+            {isCheckRoomAvaialble ? <Button variant="outline-success" onClick={onClickUpdateUpcomingReser} >Update</Button> : <></>}
             <Button variant="outline-success" onClick={handleCloseUpdateModal}>Close</Button>
         </Modal.Footer>
     </Modal>
