@@ -1,6 +1,6 @@
 # reservation-system
+ - This is old repo
 
-## This is Old Repo
 ## New Repo for React
  - [Link](https://github.com/rhalepeska/hotel-react)
 ## New Repo for Express
