@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
 
 import './reviewReservation.css';
 
@@ -30,6 +31,7 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
 
     // To store user data on Redux
     const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
         (async () => {
@@ -104,6 +106,7 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
                 console.log("reservationData", reservationData);
 
                 try {
+                    document.body.style.overflow = 'visible';
                     const updated = await createReservation(reservationData, user._id, allReviewState.roomInfo.price)
                     console.log(updated);
                     handleShow();
@@ -113,9 +116,11 @@ const ReviewReservation = ({allReviewState, setIsReviewReservation}) => {
                     dispatch(setTotalNights(updated.data.updatedNights));
                     dispatch(setPoints(updated.data.updatedPoints));
 
-                    document.body.style.overflow = 'visible';
+                    // document.body.style.overflow = 'visible';
                     closeModal();
-                    window.location.assign('/account');
+               //     window.location.assign('/account');
+                    let path = `/account`; 
+                    history.push(path);
                 }catch(error){
                     handleShow();
                     setNoticeModal(error.response.data.message);

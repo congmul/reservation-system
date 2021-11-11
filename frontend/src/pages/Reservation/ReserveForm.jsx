@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import axios from 'axios'
 import RoomList from './RoomList';
+import { getReservationsByDay } from '../../utils/reservation-API';
 
 const ReserveForm = ({hotelInfo, rooms, hotelid}) => {
     const [formData, setFormData] = useState({ checkin: '', checkout: '' , numRooms: ''}); 
@@ -35,18 +35,39 @@ const ReserveForm = ({hotelInfo, rooms, hotelid}) => {
         //find stay length in days
         const inDate = new Date(formData.checkin);
         const outDate = new Date(formData.checkout);
-        // console.log(typeof formData.checkin);
-        // console.log(formData.checkout)
         setReservationDate({"dateStart": formData.checkin, "dateEnd": formData.checkout})
         const timeDif = outDate.getTime() - inDate.getTime(); //milliseconds
         setNights(timeDif / (1000 * 3600 *24)); //convert to days
         
         try{
-        //some axios call
-        //do some checking with reservations in the selected time frame, find which rooms are available
             let checked = [];
             for(let room of rooms){
-                if(room){ //some check/logic; if available, add to the list
+                console.log(formData.checkin, formData.checkout, room._id);
+               const response = await getReservationsByDay(formData.checkin, formData.checkout, room._id);
+               const reservationsByDay = response.data;
+               console.log(reservationsByDay);
+
+               let avail = true;
+               console.log(room.quantity); 
+
+               for(let day of reservationsByDay){
+                    let filled = 0;     //rooms filled by other reservations
+                    if(Number.parseInt(formData.numRooms) > room.quantity){
+                        console.log('room not available');
+                        avail = false;
+                        break;
+                    }
+                    for(let reservation of day){
+                        filled += reservation.roomQuantity;
+                        console.log('rooms filled:',filled, 'with max:', room.quantity);
+                        if(filled + Number.parseInt(formData.numRooms) > room.quantity){
+                            console.log('room not not available; filled+form > max. ', Number.parseInt(formData.numRooms)+filled, room.quantity);
+                            avail = false;
+                            break;
+                        }
+                    }
+               }
+                if(avail){ 
                     checked.push(room);
                 }
             }
