@@ -110,7 +110,8 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
             handleCloseUpdateModal();
             setIsUpdate(response);
         }catch(error){
-            console.log(error.response.data);
+            alert(error.response.data.message +  
+            " Please select another date.");
         }
     }
 
@@ -352,7 +353,7 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
 
                     {showWarningNotice ? 
                         <div className="checking-warning alert-danger">
-                            <div>Not available during the date</div>
+                            <div>Not available during the date.</div>
                             <ul>{notAvailableDateState.map(date => <li>{date}</li>)}</ul>
                         </div>
                         : <></>}
