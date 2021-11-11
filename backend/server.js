@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require('path');
 const { Hotel, Reservation, User } = require("./models");
 require('dotenv').config();
 const dbConnection = require('./config/connection.js');
