@@ -1,4 +1,4 @@
-const { Reservation, User } = require('../models');
+const { Reservation, User, Hotel } = require('../models');
 const mongoose = require('mongoose');
 
 const getReservation = async () => {
@@ -14,6 +14,38 @@ const getReservationById = async (id) => {
     try {
         const response = await Reservation.find({"_id": id}).populate('hotel');
         return response;
+    }catch(error) {
+        return {message: "Cannot find the reservation", error};
+    }
+}
+const getReservationsByDay = async (isoStart, isoEnd, roomId) => {
+    //finds noncancelled reservations that overlap a specified day for a specified room
+    
+    try {
+        let isoDay = isoStart.slice(-2);
+        let isoMonth = isoStart.slice(5, 7);
+        let isoYear = isoStart.slice(0, 4);
+        const inDate = new Date(isoYear, isoMonth-1, isoDay); //breaking up iso date is necessary to avoid timezone issues
+        isoDay = isoEnd.slice(-2);
+        isoMonth = isoEnd.slice(5, 7);
+        isoYear = isoEnd.slice(0, 4);
+        const outDate = new Date(isoYear, isoMonth-1, isoDay); //breaking up iso date is necessary to avoid timezone issues
+
+        const timeDif = (new Date(isoEnd)).getTime() - (new Date(isoStart)).getTime(); //milliseconds
+        const nights = timeDif / (1000 * 3600 *24); //convert to days
+        console.log(nights);
+
+        let reservationsByDay = [];
+        for(let i = 0; i < nights; i++){
+            let daysInMs = i*24*60*60*1000; //hours, minutes, seconds, milliseconds
+            let date = new Date(inDate.getTime() + daysInMs); //date can take ms as argument
+            console.log(date);
+            let reservations = await Reservation.find({dateStart: {$lte: date}, dateEnd: {$gt: date},
+                  roomId: roomId, isCancel: false}).populate('hotel'); 
+            reservationsByDay.push(reservations);
+        }
+       
+        return reservationsByDay; //returns a 2d array; an array for every day between start and end dates 
     }catch(error) {
         return {message: "Cannot find the reservation", error};
     }
@@ -170,7 +202,6 @@ const updateReservationById = async (reservationData, reservationId, userId, roo
         throw error;
     }
 }
-
 const createReservation = async (reservationData, userId, roomPrice=0) => {
     try {
         // Validation for checking duplicate booked date.
@@ -253,6 +284,7 @@ const createReservation = async (reservationData, userId, roomPrice=0) => {
 module.exports = {
     getReservation,
     getReservationById,
+    getReservationsByDay,
     updateReservationById,
     cancelReservationById,
     createReservation

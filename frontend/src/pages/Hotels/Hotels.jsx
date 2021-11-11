@@ -10,7 +10,8 @@ const Hotels = () => {
 
     useEffect(() => {
         (async () => {
-            const {data} = await axios.get('http://localhost:8080/api/hotel');
+            const url = process.env.REACT_APP_BASE_URL || `http://localhost:8080/api/`;
+            const {data} = await axios.get(`${url}/hotel`);
             console.log(data);
             setHotels(data);
             setFiltered(data);
@@ -37,7 +38,7 @@ const Hotels = () => {
     }
 
     return (
-        <div className="m-5">
+        <div className="m-5 contain">
             <div className ="d-flex px-lg-5 mx-lg-5 mb-5">
                 <input id="input" type="text" className="form-control rounded-pill" placeholder="Hotel name, city, or state"/>
                 <button className="btn btn-dark rounded-pill" onClick={filterHotels}>Search</button>
