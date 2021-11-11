@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getReservation, createReservation, getReservationById, updateReservationById, cancelReservationById } = require('../../controller/reservation-controller');
+const { getReservation, createReservation, getReservationById, updateReservationById, cancelReservationById, getReservationsByDay } = require('../../controller/reservation-controller');
 
 // PATH:  /api/reservation/
 router.get('/', async (req, res) => {
@@ -13,9 +13,19 @@ router.get('/', async (req, res) => {
         res.status(500).json(error);
     }
 })
-
+router.get('/day/:checkin/:checkout/:roomId', async (req, res) => {
+    try {
+        console.log('inside day path');
+        console.log(req.params.checkin, req.params.checkout); //day should be iso format: YYYY-MM-DD
+        const response = await getReservationsByDay(req.params.checkin, req.params.checkout, req.params.roomId);
+        res.json(response);
+    }catch(error){
+        res.status(500).json(error);
+    }
+})
 router.get('/:id', async (req, res) => {
     try {
+        console.log('inside id');
         console.log(req.params.id);
         const response = await getReservationById(req.params.id);
         console.log(response);
