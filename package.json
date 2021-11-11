@@ -1,0 +1,26 @@
+{
+  "name": "reservation-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "develop": "concurrently \"cd backend && npm run watch\" \"cd frontend && npm start\"",
+    "install": "cd backend && npm i && cd ../frontend && npm i",
+    "build": "cd frontend && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/congmul/reservation-system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/congmul/reservation-system/issues"
+  },
+  "homepage": "https://github.com/congmul/reservation-system#readme",
+  "dependencies": {
+    "concurrently": "^6.3.0"
+  }
+}
