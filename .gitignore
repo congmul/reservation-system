@@ -1,3 +1,4 @@
 docker-compose-dev.yml
 docker-compose-production.yml
 Makefile
+node_modules
