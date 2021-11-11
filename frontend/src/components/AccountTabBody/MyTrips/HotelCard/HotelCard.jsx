@@ -219,6 +219,7 @@ const HotelCard = ({reservation, userId, upcoming=false, style, setIsUpdate}) =>
         console.log(userId, reservationId)
 
         try {
+            // TODO: Get all reservation by roomID and Date
             // Adding an Alias for destructured variable
             const { data: allReservation } = await getAllReservation();
             console.log(allReservation);
