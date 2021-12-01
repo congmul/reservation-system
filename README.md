@@ -6,7 +6,7 @@
  - [Link](https://congmul.github.io/document-hotel-reservation-system/)
 
 ## Deployment
- - [Link](https://hotel-react.azurewebsites.net/)
+ - [Link](https://hotel-reservation-app-jjh.herokuapp.com/)
 
 ## Table of Contents
 

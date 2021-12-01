@@ -13,7 +13,8 @@ const Home = () => {
         (async () => {
             const url = process.env.REACT_APP_BASE_URL || `http://localhost:8080/api/`
             console.log(url)
-            const {data} = await axios.get(`${url}/hotel/featured`);
+            // const {data} = await axios.get(`${url}/hotel/featured`);
+            const {data} = await axios.get(`/api/hotel/featured`);
             console.log(data);
             setFeatured(data);
         })();

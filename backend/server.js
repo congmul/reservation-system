@@ -1,12 +1,13 @@
 const express = require("express");
 const cors = require("cors");
+const path = require('path');
 const { Hotel, Reservation, User } = require("./models");
 require('dotenv').config();
 const dbConnection = require('./config/connection.js');
 
 
 const app = express();
-const port = process.env.PORT || 9001;
+const port = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({extened:  true}))

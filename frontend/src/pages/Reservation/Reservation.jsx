@@ -11,8 +11,8 @@ const Reservation = ({match}) => {
 
     useEffect(() => {
         (async () => {
-            const url = process.env.REACT_APP_BASE_URL || `http://localhost:8080/api/`
-            const {data} = await axios.get(`${url}/hotel/id/${id}`);
+            // const url = process.env.REACT_APP_BASE_URL || `http://localhost:8080/api/`
+            const {data} = await axios.get(`/api/hotel/id/${id}`);
             setHotel([data]);
         })();
       }, []);

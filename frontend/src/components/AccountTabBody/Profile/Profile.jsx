@@ -24,7 +24,6 @@ const Profile = () => {
       for(let i = 0; i < 10; i++){
          years.push(startYear + i);
       }
-      console.log(years)
       setCurrentYear(years)
     }, [])
 
@@ -34,7 +33,6 @@ const Profile = () => {
                 const userData = await Auth.getProfile();
                 const token = Auth.getToken();
                 const user = await getSingleUser(userData.data.username, token);
-                console.log(user);
                 setUser(user.data[0])      
             }catch(err) {
                 console.log(err);
@@ -82,7 +80,6 @@ const Profile = () => {
     }
 
     const onClickProfileSumitBtn = async () => {
-      console.log("submit btn")
       const allInputEl = document.getElementsByClassName('profile-input');
       let userInfo = {}
       let address = {}
@@ -94,12 +91,10 @@ const Profile = () => {
          }
       }
       userInfo["address"] = address;
-      console.log(userInfo);
       
       // Update userInfo
       try {
          let response = await updateUser(userInfo);
-         console.log(response);
 
          // Store firstName in Redux state
          dispatch(setFirstName(userInfo.firstName));
@@ -146,8 +141,7 @@ const Profile = () => {
       profileCardUpdateCancelEl.style.display = "block";
     }
 
-    const onClickProfileCardSumitBtn = async (event) => {
-      console.log("submit btn")
+    const onClickProfileCardSumitBtn = async () => {
       const allCardInfoInputEl = document.getElementsByClassName('profile-cardInfo-input');
       const expireSelectMonthEl = document.getElementById('expire-select-month');
       const expireSelectYearEl = document.getElementById('expire-select-year');
@@ -159,12 +153,10 @@ const Profile = () => {
          cardInfo[allCardInfoInputEl[i].name] = allCardInfoInputEl[i].value;
       }
       cardInfo["expDate"] = expireDate
-      console.log(cardInfo);
       setUser({ ...user, "cardInfo" :cardInfo})
       // Update cardInfo
       try {
          let response = await updateCardInfo(cardInfo, user.username);
-         console.log(response);
          onClickProfileCardCancelBtn();
          setIsUpdatingCardInfo(false);
       }catch(error){
